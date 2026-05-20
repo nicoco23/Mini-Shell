@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 10:56:27 by ltournie          #+#    #+#             */
-/*   Updated: 2026/05/20 10:56:49 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/05/20 12:52:55 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int main(void)
 {
+	while (1)
+		printf("minishell>");
 	return (0);
 }
