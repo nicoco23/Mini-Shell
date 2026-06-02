@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/06/02 16:17:02 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/06/02 16:23:07 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int main(void)
 {
 	while(1)
 	{
-		printf("MouliSwag> ");
-		parsing;
+		//printf("MouliSwag🦁​ ");
+		parsing();
 	}
 	return (0);
 }

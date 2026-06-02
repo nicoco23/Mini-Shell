@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/02 16:05:39 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/06/02 16:28:49 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int parsing(void)
 {
 	char *test;
-	test = readline("");
+	test = readline("\033[1;35mMouliSwag\033[0m 🦁​");
 	printf("%s\n", test);
 	return (0);
 }

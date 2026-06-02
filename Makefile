@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
+#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/06/02 16:04:19 by ltournie         ###   ########.fr        #
+#    Updated: 2026/06/02 16:18:50 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC = main.c \
 	parsing.c
 OBJ = $(SRC:%.c=%.o)
 NAME = minishell
-HEADER = minishell.h
+HEADER = -I include -I .
 LINK = $(CC) $(CFLAGS)
 RM = rm -f
 
@@ -28,14 +28,14 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(LINK) -I . $(OBJ) -o $(NAME) $(LIBFT_LIB)
+	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB)
 
 .PHONY: libft
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-%.o: %.c $(HEADER)
-	$(LINK) -I. -c $< -o $@
+%.o: %.c
+	$(LINK) $(HEADER) -c $< -o $@
 
 .PHONY: clean
 clean:
