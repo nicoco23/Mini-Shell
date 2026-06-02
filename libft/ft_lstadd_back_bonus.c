@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/02 14:27:47 by ltournie         ###   ########.fr       */
+/*   Created: 2025/12/02 15:09:53 by ltournie          #+#    #+#             */
+/*   Updated: 2025/12/03 06:18:45 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "libft.h"
 
-#endif
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*list;
+
+	if (new == NULL)
+		return ;
+	if ((*lst) == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	list = *lst;
+	while ((list)->next != NULL)
+		(list) = (list)->next;
+	(list)->next = new;
+}
