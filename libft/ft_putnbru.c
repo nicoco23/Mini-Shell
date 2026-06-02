@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putnbru.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/02 14:27:47 by ltournie         ###   ########.fr       */
+/*   Created: 2026/01/12 23:17:26 by ltournie          #+#    #+#             */
+/*   Updated: 2026/04/07 11:29:28 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "libft.h"
 
-#endif
+int	ft_putnbru(unsigned int to_write, int nb)
+{
+	if (to_write < 10)
+	{
+		nb = ft_putchar((to_write + '0'), nb);
+	}
+	else if (to_write > 9)
+	{
+		nb = ft_putnbru((to_write / 10), nb);
+		nb = ft_putnbru((to_write % 10), nb);
+	}
+	return (nb);
+}

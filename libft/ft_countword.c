@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_countword.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/02 14:27:47 by ltournie         ###   ########.fr       */
+/*   Created: 2026/04/14 17:05:28 by ltournie          #+#    #+#             */
+/*   Updated: 2026/05/07 17:00:50 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+int	ft_countword(char *str, char c)
+{
+	int	i;
+	int	count;
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "libft.h"
-
-#endif
+	i = 0;
+	count = 0;
+	if (str[0] != c && str[0] != '\0')
+	{
+		count++;
+		i++;
+	}
+	while (str[i] != '\0')
+	{
+		if (str[i] == c && str[i + 1] != c && str[i + 1] != '\0')
+			count++;
+		i++;
+	}
+	return (count);
+}

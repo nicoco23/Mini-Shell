@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/05/29 08:53:03 by codespace        ###   ########.fr       */
+/*   Updated: 2026/06/02 14:26:37 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 int main(void)
 {
 	while(1)
+	{
+		printf("minishell$");
 		parsing;
+	}
 	return (0);
 }
