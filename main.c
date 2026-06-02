@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/06/02 15:02:51 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/06/02 16:17:02 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 int main(void)
 {
-	printf("Welcome to Minishell!\n");
 	while(1)
 	{
-		printf("placeholder$");
-		parsing();
+		printf("MouliSwag> ");
+		parsing;
 	}
 	return (0);
 }
