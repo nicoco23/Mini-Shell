@@ -6,17 +6,18 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/06/02 16:23:07 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/06/22 10:31:13 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t g_signal;
+
 int main(void)
 {
-	while(1)
+	while (1)
 	{
-		//printf("MouliSwag🦁​ ");
 		parsing();
 	}
 	return (0);

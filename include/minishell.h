@@ -6,12 +6,20 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/02 17:37:00 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/06/22 15:18:19 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft/libft.h"
 
 /* ======== LES STRUCTURES ========*/
 
@@ -57,7 +65,6 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-
 /* ===== COMMANDE ===== */
 
 /*
@@ -76,7 +83,6 @@ typedef struct s_cmd
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
-
 
 /* ===== ÉTAT GLOBAL DU SHELL ===== */
 
@@ -100,6 +106,11 @@ typedef struct s_shell
 	int		last_exit;
 }	t_shell;
 
+typedef struct s_wctx
+{
+	char	**word;
+	t_shell	*shell;
+}	t_wctx;
 
 /* ===== VARIABLE GLOBALE SIGNAUX ===== */
 
@@ -110,17 +121,21 @@ typedef struct s_shell
 ** volatile : force le compilateur à toujours relire la valeur en mémoire.
 ** sig_atomic_t : garantit que l'écriture est atomique (pas de corruption).
 */
-extern volatile sig_atomic_t g_signal;
+extern volatile sig_atomic_t	g_signal;
+/* parsing.c */
+int			parsing(void);
 
+/* lexer_utils.c*/
+t_token		*new_token(t_token_type type, char *value);
+void		token_add_back(t_token **list, t_token *new);
+int			is_separator(char c);
+int			append_char(char **word, char c);
+int			read_quoted(char *line, int *i, char quote, t_wctx *ctx);
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "libft/libft.h"
+/* lexer.c */
+t_token		*lexer(char *line, t_shell *shell);
 
-int parsing(void);
-
+/* expand.c */
+char		*get_env_value(char **env, char *name);
+int			expand_dollar(char *line, int *i, t_wctx *ctx);
 #endif
