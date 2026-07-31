@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/07/30 15:54:29 by ntassin          ###   ########.fr       */
+/*   Created: 2026/07/30 16:00:03 by ntassin           #+#    #+#             */
+/*   Updated: 2026/07/30 16:01:22 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
-
-int	main(void)
+int	add_redir(t_cmd *cmd, t_token_type type, char *target)
 {
-	while (1)
-	{
-		parsing();
-	}
-	return (0);
+    
+}
+
+static t_redir	*new_redir(t_token_type type, char *target)
+{
+
 }

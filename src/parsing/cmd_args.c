@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_args.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/07/30 15:54:29 by ntassin          ###   ########.fr       */
+/*   Created: 2026/07/30 15:58:55 by ntassin           #+#    #+#             */
+/*   Updated: 2026/07/30 15:59:51 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
-
-int	main(void)
+static int	count_args(t_token *start)
 {
-	while (1)
-	{
-		parsing();
-	}
-	return (0);
+
+}
+
+char	**build_args(t_token *start)
+{
+	
 }

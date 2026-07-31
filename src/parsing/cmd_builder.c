@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/07/30 15:54:29 by ntassin          ###   ########.fr       */
+/*   Created: 2026/07/30 15:55:54 by ntassin           #+#    #+#             */
+/*   Updated: 2026/07/30 15:58:22 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
-
-int	main(void)
+t_cmd	*build_cmds(t_token *tokens)
 {
-	while (1)
-	{
-		parsing();
-	}
-	return (0);
+	
 }
+
+static t_cmd	*new_cmd(void)
+{
+
+}
+
+static int	fill_cmd(t_cmd *cmd, t_token **tokens)
+{
+	
+}
+

@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/06/22 15:18:19 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/07/30 16:09:06 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ typedef struct s_wctx
 */
 extern volatile sig_atomic_t	g_signal;
 /* parsing.c */
-int			parsing(void);
+int			parsing(t_shell *shell);
 
 /* lexer_utils.c*/
 t_token		*new_token(t_token_type type, char *value);
@@ -138,4 +138,20 @@ t_token		*lexer(char *line, t_shell *shell);
 /* expand.c */
 char		*get_env_value(char **env, char *name);
 int			expand_dollar(char *line, int *i, t_wctx *ctx);
+
+/* cmd_builder.c */
+t_cmd		*build_cmds(t_token *tokens);
+
+/* cmd_args.c */
+char		**build_args(t_token *start);
+
+/* cmd_redir.c */
+int			add_redir(t_cmd *cmd, t_token_type type, char *target);
+
+/* syntax_check.c */
+int			check_syntax(t_token *tokens);
+
+/* parsing_free.c */
+void		free_tokens(t_token *tokens);
+void		free_cmds(t_cmd *cmds);
 #endif
