@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 15:55:54 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/01 14:32:45 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:42:22 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_cmd	*new_cmd(void)
 
 static int	count_segment(t_token *start)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (start && start->type != TOKEN_PIPE)
@@ -34,7 +34,7 @@ static int	fill_cmd(t_cmd *cmd, t_token **tokens)
 {
 	t_token	*cur;
 	int		i;
-	
+
 	cmd->args = ft_calloc(count_segment(*tokens) + 1, sizeof(char *));
 	if (!cmd->args)
 		return (0);
@@ -56,30 +56,29 @@ static int	fill_cmd(t_cmd *cmd, t_token **tokens)
 			cur = cur->next->next;
 		}
 	}
-	*tokens = cur;
-	return (1);
+	return (*tokens = cur, 1);
 }
 
-t_cmd *build_cmds(t_token *tokens)
+t_cmd	*build_cmds(t_token *tokens)
 {
-      t_cmd   *head;
-      t_cmd   *last;
-      t_cmd   *cmd;
+	t_cmd	*head;
+	t_cmd	*last;
+	t_cmd	*cmd;
 
-      head = NULL;
-      last = NULL;
-      while (tokens)
-      {
-              cmd = new_cmd();
-              if (!cmd || !fill_cmd(cmd, &tokens))
-                      return (free_cmds(cmd), free_cmds(head), NULL);
-              if (!head)
-                      head = cmd;
-              else
-                      last->next = cmd;
-              last = cmd;
-              if (tokens && tokens->type == TOKEN_PIPE)
-                      tokens = tokens->next;
-      }
-      return (head);
+	head = NULL;
+	last = NULL;
+	while (tokens)
+	{
+		cmd = new_cmd();
+		if (!cmd || !fill_cmd(cmd, &tokens))
+			return (free_cmds(cmd), free_cmds(head), NULL);
+		if (!head)
+			head = cmd;
+		else
+			last->next = cmd;
+		last = cmd;
+		if (tokens && tokens->type == TOKEN_PIPE)
+			tokens = tokens->next;
+	}
+	return (head);
 }

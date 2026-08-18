@@ -6,19 +6,17 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/07/30 15:54:29 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:41:12 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_signal;
+volatile sig_atomic_t	g_signal;
 
 int	main(void)
 {
 	while (1)
-	{
 		parsing();
-	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/07/30 15:53:07 by ntassin          ###   ########.fr        #
+#    Updated: 2026/08/17 18:43:11 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,10 @@ SRC =	main.c						\
 		src/parsing/expand.c		\
 		src/parsing/lexer_utils.c	\
 		src/parsing/lexer.c			\
+		src/parsing/cmd_builder.c	\
+		src/parsing/cmd_redir.c		\
+		src/parsing/syntax_check.c	\
+		src/parsing/parsing_free.c	\
 		
 OBJ = $(SRC:%.c=%.o)
 NAME = minishell

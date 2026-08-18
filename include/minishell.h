@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/01 14:33:16 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/04 10:42:15 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ char		*get_env_value(char **env, char *name);
 int			expand_dollar(char *line, int *i, t_wctx *ctx);
 
 /* cmd_builder.c */
-t_cmd *build_cmds(t_token *tokens);
+t_cmd		*build_cmds(t_token *tokens);
 
 /* cmd_redir.c */
 int			add_redir(t_cmd *cmd, t_token_type type, char *target);
