@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/17 18:36:26 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/19 12:53:39 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	process_line(char *line, t_shell *shell)
 	free_tokens(tokens);
 	if (!shell->cmds)
 		return (0);
+	debug_print_cmds(shell->cmds);
 	free_cmds(shell->cmds);
 	shell->cmds = NULL;
 	return (1);

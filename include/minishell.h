@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/04 10:42:15 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/19 12:52:57 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,4 +151,7 @@ int			check_syntax(t_token *tokens);
 /* parsing_free.c */
 void		free_tokens(t_token *tokens);
 void		free_cmds(t_cmd *cmds);
+
+/* debug_cmds.c */
+void		debug_print_cmds(t_cmd *cmds);
 #endif
