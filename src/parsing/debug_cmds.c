@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/19 12:51:32 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/19 12:52:19 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 14:25:32 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,29 @@ void	debug_print_cmds(t_cmd *cmds)
 		r = cmds->redirs;
 		while (r)
 		{
-			printf("| redir(type=%d, target=%s) ", r->type, r->target);
+			printf("| redir(type=%d, target=%s, quoted=%d) ",
+				r->type, r->target, r->quoted);
 			r = r->next;
 		}
 		printf("\n");
 		cmds = cmds->next;
 	}
+}
+
+void	debug_print_env(char **env)
+{
+	int	i;
+
+	if (!env)
+	{
+		printf("ERROR: env is NULL (Copy env fail)\n");
+		return ;
+	}
+	i = 0;
+	while (env[i])
+	{
+		printf("ENV[%d] = %s\n", i, env[i]);
+		i++;
+	}
+	printf("ENV termine par NULL apres %d entrees\n", i);
 }

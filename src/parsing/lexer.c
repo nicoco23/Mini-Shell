@@ -6,13 +6,30 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 10:37:11 by ntassin           #+#    #+#             */
-/*   Updated: 2026/06/22 15:13:57 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 15:49:59 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_word(char *line, int *i, t_shell *shell)
+static int	consume_char(char *line, int *i, t_wctx *ctx)
+{
+	if (line[*i] == '\'' || line[*i] == '"')
+	{
+		if (!read_quoted(line, i, line[*i], ctx))
+			return (0);
+	}
+	else if (line[*i] == '$')
+	{
+		if (!expand_dollar(line, i, ctx))
+			return (0);
+	}
+	else if (!append_char(ctx->word, line[(*i)++]))
+		return (0);
+	return (1);
+}
+
+char	*get_word(char *line, int *i, t_shell *shell, int *quoted)
 {
 	char	*word;
 	t_wctx	ctx;
@@ -22,21 +39,11 @@ char	*get_word(char *line, int *i, t_shell *shell)
 		return (NULL);
 	ctx.word = &word;
 	ctx.shell = shell;
+	ctx.quoted = quoted;
+	*quoted = 0;
 	while (line[*i] && !is_separator(line[*i]))
-	{
-		if (line[*i] == '\'' || line[*i] == '"')
-		{
-			if (!read_quoted(line, i, line[*i], &ctx))
-				return (free(word), NULL);
-		}
-		else if (line[*i] == '$')
-		{
-			if (!expand_dollar(line, i, &ctx))
-				return (free(word), NULL);
-		}
-		else if (!append_char(&word, line[(*i)++]))
+		if (!consume_char(line, i, &ctx))
 			return (free(word), NULL);
-	}
 	return (word);
 }
 
@@ -58,14 +65,16 @@ static int	handle_word(char *line, int *i, t_token **list, t_shell *shell)
 {
 	t_token	*token;
 	char	*word;
+	int		quoted;
 
-	word = get_word(line, i, shell);
+	word = get_word(line, i, shell, &quoted);
 	if (!word)
 		return (0);
 	token = new_token(TOKEN_WORD, word);
 	free(word);
 	if (!token)
 		return (0);
+	token->quoted = quoted;
 	token_add_back(list, token);
 	return (1);
 }
@@ -86,11 +95,11 @@ t_token	*lexer(char *line, t_shell *shell)
 		{
 			token = get_operator(line, &i);
 			if (!token)
-				return (NULL);
+				return (free_tokens(list), NULL);
 			token_add_back(&list, token);
 		}
 		else if (!handle_word(line, &i, &list, shell))
-			return (NULL);
+			return (free_tokens(list), NULL);
 	}
 	return (list);
 }

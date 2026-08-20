@@ -6,13 +6,13 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:00:03 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/17 18:35:23 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 14:23:59 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_redir	*new_redir(t_token_type type, char *target)
+static t_redir	*new_redir(t_token_type type, char *target, int quoted)
 {
 	t_redir	*redir;
 
@@ -23,16 +23,17 @@ static t_redir	*new_redir(t_token_type type, char *target)
 	redir->target = ft_strdup(target);
 	if (!redir->target)
 		return (free(redir), NULL);
+	redir->quoted = quoted;
 	redir->next = NULL;
 	return (redir);
 }
 
-int	add_redir(t_cmd *cmd, t_token_type type, char *target)
+int	add_redir(t_cmd *cmd, t_token_type type, char *target, int quoted)
 {
 	t_redir	*redir;
 	t_redir	*last;
 
-	redir = new_redir(type, target);
+	redir = new_redir(type, target, quoted);
 	if (!redir)
 		return (0);
 	if (!cmd->redirs)

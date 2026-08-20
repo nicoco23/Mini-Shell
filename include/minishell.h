@@ -6,12 +6,14 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/19 12:52:57 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 15:45:26 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define EXIT_SYNTAX_ERROR 2
 
 # include <unistd.h>
 # include <stdio.h>
@@ -46,6 +48,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	int				quoted;
 	struct s_token	*next;
 }	t_token;
 /* ===== REDIRECTION ===== */
@@ -62,6 +65,7 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	char			*target;
+	int				quoted;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -110,6 +114,7 @@ typedef struct s_wctx
 {
 	char	**word;
 	t_shell	*shell;
+	int		*quoted;
 }	t_wctx;
 
 /* ===== VARIABLE GLOBALE SIGNAUX ===== */
@@ -143,7 +148,7 @@ int			expand_dollar(char *line, int *i, t_wctx *ctx);
 t_cmd		*build_cmds(t_token *tokens);
 
 /* cmd_redir.c */
-int			add_redir(t_cmd *cmd, t_token_type type, char *target);
+int			add_redir(t_cmd *cmd, t_token_type type, char *target, int quoted);
 
 /* syntax_check.c */
 int			check_syntax(t_token *tokens);
@@ -154,4 +159,5 @@ void		free_cmds(t_cmd *cmds);
 
 /* debug_cmds.c */
 void		debug_print_cmds(t_cmd *cmds);
+void		debug_print_env(char **env);
 #endif
