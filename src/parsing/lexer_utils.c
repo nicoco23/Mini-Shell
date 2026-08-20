@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 10:37:27 by ntassin           #+#    #+#             */
-/*   Updated: 2026/06/22 15:12:20 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 10:31:27 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	append_char(char **word, char c)
 
 int	read_quoted(char *line, int *i, char quote, t_wctx *ctx)
 {
+	*ctx->quoted = 1;
 	(*i)++;
 	while (line[*i] && line[*i] != quote)
 	{

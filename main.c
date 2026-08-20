@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/08/19 11:33:24 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 09:49:07 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	shell.env = copy_env(envp);
+	debug_print_env(shell.env);
 	shell.cmds = NULL;
 	shell.last_exit = 0;
 	while (1)
