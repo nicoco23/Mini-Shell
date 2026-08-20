@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 15:45:26 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 16:10:13 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct s_token
 **
 ** type   : le type de redirection (<, >, >>, <<)
 ** target : nom du fichier cible, ou délimiteur pour le heredoc
+** quoted : 1 si le delimiteur du heredoc etait quote (desactive $ dans le corps)
+** fd	  : descripteur ouvert par l'executor pour cette redirection
+**			(-1 tant qu'elle n'a pas ete ouverte), utilise pour le dup2
 ** next   : redirection suivante sur la même commande
 */
 typedef struct s_redir
@@ -66,6 +69,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*target;
 	int				quoted;
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -79,12 +83,15 @@ typedef struct s_redir
 **          args[0] = nom de la commande, args[1..n] = arguments.
 **          Ce format est directement compatible avec execve().
 ** redirs : liste des redirections attachées à cette commande
+** path	  : chemin resolu de l'executable (rempli par l'executor apres
+			recherche dans PATH), NULL tant que non resolu
 ** next   : commande suivante dans le pipeline (NULL si dernière)
 */
 typedef struct s_cmd
 {
 	char			**args;
 	t_redir			*redirs;
+	char			*path;
 	struct s_cmd	*next;
 }	t_cmd;
 

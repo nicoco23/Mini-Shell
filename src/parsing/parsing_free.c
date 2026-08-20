@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:03:32 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/17 18:38:09 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 15:59:44 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	free_cmds(t_cmd *cmds)
 			free(cmds->args);
 		}
 		free_redirs(cmds->redirs);
+		free(cmds->path);
 		free(cmds);
 		cmds = tmp;
 	}

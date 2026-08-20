@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:00:03 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/20 14:23:59 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 16:10:40 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_redir	*new_redir(t_token_type type, char *target, int quoted)
 	if (!redir->target)
 		return (free(redir), NULL);
 	redir->quoted = quoted;
+	redir->fd = -1;
 	redir->next = NULL;
 	return (redir);
 }
