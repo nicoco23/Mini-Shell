@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 14:55:55 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 15:45:26 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,5 @@ void		free_cmds(t_cmd *cmds);
 
 /* debug_cmds.c */
 void		debug_print_cmds(t_cmd *cmds);
-void	debug_print_env(char **env);
+void		debug_print_env(char **env);
 #endif

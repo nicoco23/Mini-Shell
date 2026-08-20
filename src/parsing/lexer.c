@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 10:37:11 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/20 14:21:42 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 15:49:59 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,11 @@ t_token	*lexer(char *line, t_shell *shell)
 		{
 			token = get_operator(line, &i);
 			if (!token)
-				return (NULL);
+				return (free_tokens(list), NULL);
 			token_add_back(&list, token);
 		}
 		else if (!handle_word(line, &i, &list, shell))
-			return (NULL);
+			return (free_tokens(list), NULL);
 	}
 	return (list);
 }
