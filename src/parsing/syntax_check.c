@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:01:38 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/17 18:36:13 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 14:39:08 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	syntax_error(char *token_value)
 {
-	ft_printf("mouliswag: syntax error near unexpected token `%s'\n",
-		token_value);
+	ft_putstr_fd("mouliswag: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token_value, 2);
+	ft_putstr_fd("'\n", 2);
 }
 
 static int	check_pipes(t_token *tokens)

@@ -6,12 +6,14 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 14:22:56 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 14:55:55 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define EXIT_SYNTAX_ERROR 2
 
 # include <unistd.h>
 # include <stdio.h>

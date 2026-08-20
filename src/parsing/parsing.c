@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/19 12:53:39 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/20 14:57:24 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ static int	process_line(char *line, t_shell *shell)
 	add_history(line);
 	tokens = lexer(line, shell);
 	if (!tokens)
-		return (0);
+		return (shell->last_exit = EXIT_SYNTAX_ERROR, 0);
 	if (!check_syntax(tokens))
+	{
+		shell->last_exit = EXIT_SYNTAX_ERROR;
 		return (free_tokens(tokens), 0);
+	}
 	shell->cmds = build_cmds(tokens);
 	free_tokens(tokens);
 	if (!shell->cmds)
