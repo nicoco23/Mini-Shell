@@ -38,6 +38,9 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT, // redirection de sortie   : >
 	TOKEN_REDIR_APPEND, // redirection append   : >>
 	TOKEN_REDIR_HEREDOC, // heredoc             : <<
+	TOKEN_PIPE_IN, // entree de pipe 
+	TOKEN_PIPE_OUT, // pipe to pipe
+	TOKEN_PIPE_MID, // sortie de pipe
 }	t_token_type;
 
 // TOKEN
@@ -69,7 +72,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*target;
 	int				quoted;
-	int				fd;
+	int				fd_pipe[2];
 	struct s_redir	*next;
 }	t_redir;
 
