@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 16:10:13 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/08/25 15:59:32 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,4 +170,16 @@ void		free_cmds(t_cmd *cmds);
 /* debug_cmds.c */
 void		debug_print_cmds(t_cmd *cmds);
 void		debug_print_env(char **env);
+
+/* signal.c */
+void		setup_signal_prompt(void);
+void		setup_signal_exec(void);
+
+/* signal_heredoc.c */
+void		setup_signal_heredoc(void);
+
+/* heredoc.c */
+int	read_heredocs(t_cmd *cmds);
+
+
 #endif
