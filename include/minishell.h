@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 16:10:13 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/08/25 16:24:24 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -96,6 +100,7 @@ typedef struct s_cmd
 	t_redir			*redirs;
 	char			*path;
 	struct s_cmd	*next;
+	int				*exit_status;
 }	t_cmd;
 
 /* ===== ÉTAT GLOBAL DU SHELL ===== */

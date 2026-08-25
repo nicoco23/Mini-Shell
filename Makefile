@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/08/19 13:04:41 by ntassin          ###   ########.fr        #
+#    Updated: 2026/08/25 16:24:23 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC =	main.c						\
 		src/parsing/syntax_check.c	\
 		src/parsing/parsing_free.c	\
 		src/parsing/debug_cmds.c	\
+		src/parsing/cmd_exec.c		\
 		
 OBJ = $(SRC:%.c=%.o)
 NAME = minishell
