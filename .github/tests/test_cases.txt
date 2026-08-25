@@ -1,0 +1,798 @@
+>
+<
+>>
+<>
+>>>>>
+>>>>>>>>>>>>>>>
+> > > >
+>> >> >> >>
+>>>> >> >> >>
+/
+//
+/.
+/./../../../../..
+///////
+-
+|
+| hola
+| | |
+>>|><
+"hola"
+'hola'
+''
+*
+*/*
+*/*
+.
+..
+ABC=hola
+4ABC=hola
+hola
+hola que tal
+Makefile
+echo
+echo -n
+echo Hola
+echoHola
+echo-nHola
+echo -n Hola
+echo "-n" Hola
+echo -nHola
+echo Hola -n
+echo Hola Que Tal
+echo         Hola
+echo    Hola     Que    Tal
+""''echo hola""'''' que""'' tal""''
+echo -n -n
+echo -n -n Hola Que
+echo -nnnnn
+echo -n -nnn -nnnn
+echo -n-nnn -nnnn
+echo -n -nnn hola -nnnn
+echo -n -nnn-nnnn
+echo --------n
+echo -nnn --------n
+echo -nnn -----nn---nnnn
+echo -nnn --------nnnn
+echo $
+echo $?
+echo $?$
+echo $? | echo $? | echo $?
+echo $HOME
+echo my shit terminal is [$TERM4
+echo my shit terminal is [$TERM4]
+echo $HOME9
+echo $9HOME
+echo $HOME%
+echo Le path de mon HOME est $HOME
+echo -nnnn $hola
+echo > <
+echo | |
+EechoE
+.echo.
+>echo>
+<echo<
+>>echo>>
+|echo|
+|echo -n hola
+echo $""
+echo "$"""
+echo '$'''
+echo $"HOME"
+echo $''HOME
+echo $""HOME
+echo "$HO"ME
+echo '$HO'ME
+echo "$HO""ME"
+echo '$HO''ME'
+echo "'$HO''ME'"
+echo ""$HOME
+echo "" $HOME
+echo ''$HOME
+echo '' $HOME
+echo $"HO""ME"
+echo $'HO''ME'
+echo $'HOME'
+echo $'HOME'
+echo $=HOME
+echo $"HOLA"
+echo $'HOLA'
+echo $DONTEXIST Hola
+echo "hola"
+echo 'hola'
+echo ''hola''
+echo ''h'o'la''
+echo "''h'o'la''"
+echo "'"h'o'la"'"
+echo"'hola'"
+echo "'hola'"
+echo '"hola"'
+echo '''ho"''''l"a'''
+echo hola""""""""""""
+echo hola"''''''''''"
+echo hola''''''''''''
+echo hola'""""""""""'
+e"cho hola"
+e'cho hola'
+echo ""hola
+echo "" hola
+echo ""             hola
+echo ""hola
+echo "" hola
+echo hola""bonjour
+"e"'c'ho 'b'"o"nj"o"'u'r
+""e"'c'ho 'b'"o"nj"o"'u'r"
+echo "$DONTEXIST"Makefile
+echo "$DONTEXIST""Makefile"
+echo "$DONTEXIST" "Makefile"
+$?
+$?$?
+?$HOME
+$
+$HOME
+$HOMEdskjhfkdshfsd
+"$HOMEdskjhfkdshfsd"
+'$HOMEdskjhfkdshfsd'
+$DONTEXIST
+$LESS$VAR
+export HOLA=bonjour
+export       HOLA=bonjour
+export Hola
+export Hola9hey
+export ""
+export %
+export $?
+export ?=2
+export HOLA9=bonjour
+export _HOLA=bonjour
+export ___HOLA=bonjour
+export _HO_LA_=bonjour
+export HOL@=bonjour
+export -HOLA=bonjour
+export --HOLA=bonjour
+export HOLA-=bonjour
+export HO-LA=bonjour
+export HOL.A=bonjour
+export HOL}A=bonjour
+export HOL{A=bonjour
+export HO*LA=bonjour
+export HO#LA=bonjour
+export HO@LA=bonjour
+export HO!LA=bonjour
+export HO$?LA=bonjour
+export +HOLA=bonjour
+export HOL+A=bonjour
+export HOLA+=bonjour
+exportHOLA=bonjour
+export HOLA =bonjour
+export HOLA = bonjour
+export HOLA=bon jour
+export HOLA= bonjour
+export HOLA=$HOME
+export HOLA=bonjour$HOME
+export HOLA=$HOMEbonjour
+export HOLA=bon$jour
+export HOLA=bon(jour
+export HOLA=bon()jour
+export HOLA=bon&jour
+export HOLA=bon@jour
+export HOLA=bon!jour
+export HOLA=bon""jour""
+export HOLA$USER=bonjour
+export HOLA=bonjour=casse-toi
+export ""HOLA=bonjour""=casse-toi
+export HOLA=bonjour BYE=casse-toi
+export $HOLA=bonjour
+export HOLA=""bonjour      ""
+export HOLA=""   -n bonjour   ""
+export HOLA=""bonjour   ""/
+export HOLA='""'
+export HOLA=at
+export """" HOLA=bonjour
+export HOLA=""  bonjour  hey  ""
+export HOLA=""s -la""
+export HOLA=""s -la""
+export HOLA=""s -la""
+export HOLA=""l""
+export HOLA=""l""
+export HOL=A=bonjour
+export HOLA=""l""
+export HOL=A=""""
+export TE+S=T
+export ""=""
+export ''=''
+export "="="="
+export '='='='
+export HOLA=-n
+unset ""
+unset INEXISTANT
+unset OLDPWD
+unset HOLA9
+unset HOL?A
+unset HOLA HOL?A
+unset HOL?A HOLA
+unset HOL?A HOL.A
+unset HOLA=
+unset HOL.A
+unset HOL+A
+unset HOL=A
+unset HOL{A
+unset HOL}A
+unset HOL-A
+unset -HOLA
+unset _HOLA
+unset HOL_A
+unset HOLA_
+unset HOL*A
+unset HOL#A
+unset $HOLA
+unset $PWD
+unset HOL@
+unset HOL!A
+unset HOL^A
+unset HOL$?A
+unset """" HOLA
+unset ++++++
+unset _______
+unset export
+unset echo
+unset pwd
+unset cd
+unset unset
+unset sudo
+export hola | unset hola | echo $?
+pwd
+cd
+cd .
+cd ./
+cd ./././.
+cd ././././
+cd ..
+cd ../
+cd ../..
+cd ../.
+cd .././././.
+cd srcs
+cd 'srcs'
+cd "srcs"
+cd '/etc'
+cd /e'tc'
+cd /e"tc"
+cd sr
+cd Makefile
+cd ../minishell
+cd ../../../../../../..
+cd .././../.././../bin/ls
+cd /
+cd '/'
+cd //
+cd '//'
+cd ///
+cd ////////
+cd '////////'
+cd /minishell
+cd _
+cd $HOME
+cd $HOME/42_works
+cd "$PWD/srcs"
+cd '$PWD/srcs'
+cd *
+ls hola
+./Makefile
+exit
+exit exit
+exit hola
+exit hola que tal
+exit 42
+exit 000042
+exit 666
+exit 666 666
+exit -666 666
+exit hola 666
+exit 666 666 666 666
+exit 666 hola 666
+exit hola 666 666
+exit 259
+exit -4
+exit -42
+exit -0000042
+exit -259
+exit -666
+exit +666
+exit 0
+exit +0
+exit -0
+exit +42
+exit -69 -96
+exit --666
+exit ++++666
+exit ++++++0
+exit ------0
+exit "666"
+exit '666'
+exit '-666'
+exit '+666'
+exit '----666'
+exit '++++666'
+exit '6'66
+exit '2'66'32'
+exit "'666'"
+exit '"666"'
+exit '666'"666"666
+exit +'666'"666"666
+exit -'666'"666"666
+exit 9223372036854775807
+exit 9223372036854775808
+exit -9223372036854775808
+exit -9223372036854775809
+cat | cat | cat | ls
+ls | exit
+ls | exit 42
+exit | ls
+echo | echo
+echo hola | echo que tal
+env | echo hola
+ls | hola
+ls | ls hola
+ls | ls | hola
+ls | hola | ls
+echo hola | cat
+echo hola| cat
+echo hola |cat
+echo hola|cat
+ech|o hola | cat
+export HOLA | echo hola
+export | echo hola
+echo hola > > bonjour
+echo hola < < bonjour
+echo hola >>> bonjour
+< pwd
+< Makefile .
+cat <pwd
+cat <srcs/pwd
+cat <../pwd
+cat >>
+cat >>>
+cat < ls
+cat < ls > ls
+ls nonexistentfile
+cat nonexistentfile
+invalid_command
+/invalid/path/command
+cat /tmp/test_out.txt
+rm /tmp/test_out.txt
+echo -n test | cat
+echo $PWD
+echo $?
+echo $? $? $?
+export TEST=value
+echo $TEST
+unset TEST
+echo $TEST
+export VAR1=a VAR2=b
+echo $VAR1 $VAR2
+export MYVAR="test value"
+echo $MYVAR
+echo "$MYVAR"
+echo '$MYVAR'
+echo $
+cd /tmp
+pwd
+cd /
+pwd
+pwd
+exit 0
+exit 1
+exit 42
+exit -1
+exit 256
+./Makefile
+echo | echo | echo test
+cat | cat | cat
+ls -la
+cat /tmp/minishell_test_$$
+rm /tmp/minishell_test_$$
+ls > /dev/null
+export EMPTY=""
+echo $EMPTY
+echo "$EMPTY"
+unset EMPTY
+export ZERO=0
+echo $ZERO
+unset ZERO
+cd ..
+pwd
+cd srcs
+pwd
+cd ..
+export HOME=/tmp
+echo $HOME
+export HOME=$HOME
+echo $HOME
+echo test1
+echo test2 test3
+echo 'single quotes'
+echo "double quotes"
+echo mixed 'single' and "double"
+echo -n single
+echo -n multiple words
+export A=1
+export B=2
+echo $A$B
+export C=hello
+export D=world
+echo $C $D
+export E="test value"
+echo $E
+unset A
+echo $A
+export LONG_VAR_NAME=long_value
+echo $LONG_VAR_NAME
+unset LONG_VAR_NAME
+export NUM=123
+echo $NUM
+cd .
+cd ./
+pwd
+echo hello | cat
+cat /tmp/t1.txt
+pwd
+echo $PWD
+export PATH=$PATH
+echo '*'
+echo '?'
+echo '.'
+echo '..'
+echo '-'
+echo '/'
+echo ''
+echo ""
+echo ' '
+echo '  '
+echo     
+export VAL=1
+echo $VAL
+export VAL=2
+echo $VAL
+unset VAL
+export VAL2=test
+export VAL3=test2
+echo $VAL2 $VAL3
+ls > /dev/null
+cat Makefile > /dev/null
+cat < Makefile
+echo test | cat | cat | cat
+echo $NONEXISTENT
+echo $NONEXISTENT123
+echo $123
+echo 'hello world'
+echo "hello world"
+echo 'hello "world"'
+echo "hello 'world'"
+export A=
+export _=value
+export __VAR=test
+export VAR_NAME=value
+unset NONEXISTENT
+unset A B C
+unset _VAR
+ls -l
+ls -la
+ls -la Makefile
+export S1=hello
+export S2=world
+echo $S1$S2
+echo "$S1 $S2"
+export N=42
+echo $N
+export N=0
+echo $N
+export TRUE=1
+export FALSE=0
+echo $TRUE
+echo $FALSE
+export MYPATH=/tmp
+echo $MYPATH
+pwd
+cat < /dev/null
+echo test | cat -
+ls Makefile | cat
+export HOME=/test
+echo $HOME
+export HOME=/home
+echo $HOME
+export A=1 B=2 C=3
+echo $A
+echo $B
+echo $C
+export X=1 Y=2
+unset X
+echo $X
+echo $Y
+pwd
+export VAR='test'
+echo $VAR
+export VAR="test2"
+echo $VAR
+export BASE=/tmp
+export PATH2=$BASE
+echo $PATH2
+export A=1 B=2 C=3
+unset A B C
+echo $A$B$C
+export DEST=/tmp
+pwd
+export F=1
+export G=2
+export H=3
+echo $F $G $H
+echo test1
+echo $'1'
+echo -1
+echo test2
+echo $'2'
+echo -2
+echo test3
+echo $'3'
+echo -3
+echo test4
+echo $'4'
+echo -4
+echo test5
+echo $'5'
+echo -5
+echo test6
+echo $'6'
+echo -6
+echo test7
+echo $'7'
+echo -7
+echo test8
+echo $'8'
+echo -8
+echo test9
+echo $'9'
+echo -9
+echo test10
+echo $'10'
+echo -10
+echo test11
+echo $'11'
+echo -11
+echo test12
+echo $'12'
+echo -12
+echo test13
+echo $'13'
+echo -13
+echo test14
+echo $'14'
+echo -14
+echo test15
+echo $'15'
+echo -15
+echo test16
+echo $'16'
+echo -16
+echo test17
+echo $'17'
+echo -17
+echo test18
+echo $'18'
+echo -18
+echo test19
+echo $'19'
+echo -19
+echo test20
+echo $'20'
+echo -20
+echo test21
+echo $'21'
+echo -21
+echo test22
+echo $'22'
+echo -22
+echo test23
+echo $'23'
+echo -23
+echo test24
+echo $'24'
+echo -24
+echo test25
+echo $'25'
+echo -25
+echo test26
+echo $'26'
+echo -26
+echo test27
+echo $'27'
+echo -27
+echo test28
+echo $'28'
+echo -28
+echo test29
+echo $'29'
+echo -29
+export VAR1=value1
+echo $VAR1
+unset VAR1
+export VAR2=value2
+echo $VAR2
+unset VAR2
+export VAR3=value3
+echo $VAR3
+unset VAR3
+export VAR4=value4
+echo $VAR4
+unset VAR4
+export VAR5=value5
+echo $VAR5
+unset VAR5
+export VAR6=value6
+echo $VAR6
+unset VAR6
+export VAR7=value7
+echo $VAR7
+unset VAR7
+export VAR8=value8
+echo $VAR8
+unset VAR8
+export VAR9=value9
+echo $VAR9
+unset VAR9
+export VAR10=value10
+echo $VAR10
+unset VAR10
+export VAR11=value11
+echo $VAR11
+unset VAR11
+export VAR12=value12
+echo $VAR12
+unset VAR12
+export VAR13=value13
+echo $VAR13
+unset VAR13
+export VAR14=value14
+echo $VAR14
+unset VAR14
+export VAR15=value15
+echo $VAR15
+unset VAR15
+export VAR16=value16
+echo $VAR16
+unset VAR16
+export VAR17=value17
+echo $VAR17
+unset VAR17
+export VAR18=value18
+echo $VAR18
+unset VAR18
+export VAR19=value19
+echo $VAR19
+unset VAR19
+pwd
+pwd
+pwd
+pwd
+pwd
+pwd
+echo  hello
+echo  world
+echo  test
+echo  minishell
+echo  shell
+echo -n hello
+echo -n world
+echo -n test
+echo -n minishell
+echo -n shell
+export SPECIAL0=''
+echo $SPECIAL0
+export SPECIAL1=""
+echo $SPECIAL1
+export SPECIAL2=' '
+echo $SPECIAL2
+export SPECIAL3=test test
+echo $SPECIAL3
+export SPECIAL4=123456
+echo $SPECIAL4
+export SPECIAL5=path/to/file
+echo $SPECIAL5
+export X1=y1
+echo $X1
+export X2=y2
+echo $X2
+export X3=y3
+echo $X3
+export X4=y4
+echo $X4
+export X5=y5
+echo $X5
+export X6=y6
+echo $X6
+export X7=y7
+echo $X7
+export X8=y8
+echo $X8
+export X9=y9
+echo $X9
+export X10=y10
+echo $X10
+export X11=y11
+echo $X11
+export X12=y12
+echo $X12
+export X13=y13
+echo $X13
+export X14=y14
+echo $X14
+export X15=y15
+echo $X15
+export X16=y16
+echo $X16
+export X17=y17
+echo $X17
+export X18=y18
+echo $X18
+export X19=y19
+echo $X19
+export X20=y20
+echo $X20
+export X21=y21
+echo $X21
+export X22=y22
+echo $X22
+export X23=y23
+echo $X23
+export X24=y24
+echo $X24
+export X25=y25
+echo $X25
+export X26=y26
+echo $X26
+export X27=y27
+echo $X27
+export X28=y28
+echo $X28
+export X29=y29
+echo $X29
+export X30=y30
+echo $X30
+export X31=y31
+echo $X31
+export X32=y32
+echo $X32
+export X33=y33
+echo $X33
+export X34=y34
+echo $X34
+export X35=y35
+echo $X35
+export X36=y36
+echo $X36
+export X37=y37
+echo $X37
+export X38=y38
+echo $X38
+export X39=y39
+echo $X39
+export X40=y40
+echo $X40
+export X41=y41
+echo $X41
+export X42=y42
+echo $X42
+export X43=y43
+echo $X43
+export X44=y44
+echo $X44
+export X45=y45
+echo $X45
+export X46=y46
+echo $X46
+export X47=y47
+echo $X47
+export X48=y48
+echo $X48
+export X49=y49
+echo $X49

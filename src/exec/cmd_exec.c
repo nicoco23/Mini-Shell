@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 20:44:38 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/26 00:06:53 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,22 @@ static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
 	(free_cmds(cmd), exit(126));
 }
 
+static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+		child_process(cmd, shell->env, in_fd, pipe_fd);
+	return (pid);
+}
+
 static int	fork_pipeline(t_shell *shell, pid_t *pids)
 {
 	t_cmd	*cmd;
 	int		in_fd;
 	int		pipe_fd[2];
 	int		i;
-	pid_t	pid;
 
 	cmd = shell->cmds;
 	in_fd = -1;
@@ -47,16 +56,17 @@ static int	fork_pipeline(t_shell *shell, pid_t *pids)
 		pipe_fd[0] = -1;
 		pipe_fd[1] = -1;
 		if (cmd->next && pipe(pipe_fd) == -1)
-			return (-1);
-		pid = fork();
-		if (pid == 0)
-			child_process(cmd, shell->env, in_fd, pipe_fd);
-		pids[i++] = pid;
+			break ;
+		pids[i] = fork_stage(cmd, shell, in_fd, pipe_fd);
+		if (pids[i] == -1)
+			break ;
+		i++;
 		close_if_open(in_fd);
 		close_if_open(pipe_fd[1]);
 		in_fd = pipe_fd[0];
 		cmd = cmd->next;
 	}
+	close_if_open(in_fd);
 	return (i);
 }
 
@@ -88,8 +98,10 @@ void	exec(t_shell *shell)
 		return ;
 	setup_signal_wait();
 	n = fork_pipeline(shell, pids);
-	if (n != -1)
+	if (n > 0)
 		wait_pipeline(shell, pids, n);
+	if (n < lst_size)
+		perror("mouliswag: fork");
 	setup_signal_prompt();
 	g_signal = 0;
 	free(pids);
