@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:03:32 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/20 15:59:44 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 16:42:55 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	free_redirs(t_redir *redirs)
 	while (redirs)
 	{
 		tmp = redirs->next;
+		if (redirs->fd_pipe[0] != -1)
+			close(redirs->fd_pipe[0]);
 		free(redirs->target);
 		free(redirs);
 		redirs = tmp;

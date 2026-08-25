@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 14:26:36 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 15:25:37 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 16:46:00 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	setup_signal_prompt(void)
 void	setup_signal_exec(void)
 {
 	signal(SIGINT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	update_exit_status(t_shell *shell, int status)
