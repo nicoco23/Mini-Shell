@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2026/08/25 16:16:43 by ntassin          ###   ########.fr        #
+=======
+#    Updated: 2026/08/25 16:24:23 by ltournie         ###   ########.fr        #
+>>>>>>> origin/Lulu
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +26,13 @@ SRC =	main.c						\
 		src/parsing/syntax_check.c	\
 		src/parsing/parsing_free.c	\
 		src/parsing/debug_cmds.c	\
+<<<<<<< HEAD
 		src/parsing/heredoc.c		\
 		src/signal/signal.c			\
 		src/signal/signal_heredoc.c		\
+=======
+		src/parsing/cmd_exec.c		\
+>>>>>>> origin/Lulu
 		
 OBJ = $(SRC:%.c=%.o)
 NAME = minishell
