@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 14:26:36 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 16:46:00 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 16:50:52 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
+	ft_putstr_fd("\n", STDOUT_FILENO);
+	close(STDOUT_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
