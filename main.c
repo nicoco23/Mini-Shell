@@ -6,13 +6,13 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/08/25 14:26:15 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 18:08:42 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
+volatile sig_atomic_t g_signal = 0;
 
 static void	free_env(char **env, int n)
 {

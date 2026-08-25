@@ -6,11 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/08/25 15:59:32 by ntassin          ###   ########.fr       */
-=======
-/*   Updated: 2026/08/25 16:24:24 by ltournie         ###   ########.fr       */
->>>>>>> origin/Lulu
+/*   Updated: 2026/08/25 18:09:53 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +76,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*target;
 	int				quoted;
+	int				fd;
 	int				fd_pipe[2];
 	struct s_redir	*next;
 }	t_redir;
@@ -180,15 +177,5 @@ void		free_cmds(t_cmd *cmds);
 void		debug_print_cmds(t_cmd *cmds);
 void		debug_print_env(char **env);
 
-/* signal.c */
-void		setup_signal_prompt(void);
-void		setup_signal_exec(void);
-
-/* signal_heredoc.c */
-void		setup_signal_heredoc(void);
-
-/* heredoc.c */
-int	read_heredocs(t_cmd *cmds);
-
-
+void	exec(t_shell *shell);
 #endif
