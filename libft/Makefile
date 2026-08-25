@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
+#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 15:43:30 by ltournie          #+#    #+#              #
-#    Updated: 2026/05/06 16:21:55 by ltournie         ###   ########.fr        #
+#    Updated: 2026/08/25 18:11:27 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,5 +96,5 @@ fclean: clean
 re: fclean $(NAME)
 
 .PHONY: bonus
-bonus:$(OBJ) $(OBJ_BONUS)
+bonus:$(OBJ) $(OBJ_BONUS) $(OBJ_OTHER)
 	$(LINK_LIB) $(NAME) $(OBJ) $(OBJ_BONUS) $(OBJ_OTHER)

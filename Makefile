@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/08/25 18:09:31 by ntassin          ###   ########.fr        #
+#    Updated: 2026/08/25 20:12:54 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,13 @@ SRC =	main.c						\
 		src/parsing/syntax_check.c	\
 		src/parsing/parsing_free.c	\
 		src/parsing/debug_cmds.c	\
-		src/parsing/!cmd_exec.c		\
+		src/parsing/heredoc.c		\
+		src/signal/signal.c			\
+		src/signal/signal_heredoc.c	\
+		src/signal/signal_wait.c	\
+		src/exec/path_utils.c		\
+		src/exec/exec_utils.c		\
+		src/exec/cmd_exec.c			\
 		
 OBJ = $(SRC:%.c=%.o)
 NAME = minishell

@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/25 18:09:53 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 20:11:59 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,5 +177,33 @@ void		free_cmds(t_cmd *cmds);
 void		debug_print_cmds(t_cmd *cmds);
 void		debug_print_env(char **env);
 
-void	exec(t_shell *shell);
+/* signal.c */
+void		setup_signal_prompt(void);
+void		setup_signal_exec(void);
+void		update_exit_status(t_shell *shell, int status);
+
+/* signal_heredoc.c*/
+void		setup_signal_heredoc(void);
+
+/* heredoc.c */
+int			read_heredocs(t_cmd *cmds);
+
+/* exec_utils.c*/
+int			ft_listsize_cmd(t_cmd *lst);
+void		free_tab(char **list);
+void		print_error(char *str, int i);
+void		close_if_open(int fd);
+int			apply_redirs(t_cmd *cmd);
+
+/* path_utils.c*/
+char		*split_path(char *to_split, char *command);
+char		*get_path(char **envp, char *command);
+void		set_path(char *arg, char **envp, t_cmd *cmds);
+
+/* cmd_exec.c */
+void		exec(t_shell *shell);
+
+/* signal_wait.c */
+void		setup_signal_wait(void);
+
 #endif
