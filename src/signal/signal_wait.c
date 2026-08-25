@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 20:09:19 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 20:18:56 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 20:40:28 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	handle_sigint_wait(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 void	setup_signal_wait(void)

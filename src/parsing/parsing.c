@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/25 18:24:49 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 20:45:04 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	build_and_run(t_shell *shell, t_token *token)
 	return (shell->cmds = NULL, 1);
 }
 
-
 static int	process_line(char *line, t_shell *shell)
 {
 	t_token	*tokens;
@@ -54,7 +53,6 @@ static int	process_line(char *line, t_shell *shell)
 	}
 	return (build_and_run(shell, tokens));
 }
-
 
 int	parsing(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 20:16:43 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 20:44:38 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ static void	wait_pipeline(t_shell *shell, pid_t *pids, int n)
 	i = 0;
 	while (i < n)
 	{
-		waitpid(pids[i], &status, 0);
+		while (waitpid(pids[i], &status, 0) == -1 && errno == EINTR)
+			;
 		if (i == n - 1)
 			update_exit_status(shell, status);
 		i++;
