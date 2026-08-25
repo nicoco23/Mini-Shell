@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/08/20 15:45:50 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 18:04:44 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t g_signal = 0;
 
 static void	free_env(char **env, int n)
 {

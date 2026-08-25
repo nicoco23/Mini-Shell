@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+int	ft_lstsize_cmd(t_cmd *lst)
+{
+	int	i;
+
+	i = 0;
+	if (lst == NULL)
+		return (i);
+	i++;
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
 
 void	free_tab(char **list)
 {
@@ -115,7 +130,7 @@ void pipe_in(t_cmd *cmds, char **envp, int i)
 	(dup2(cmds->redirs->fd_pipe[1], STDOUT_FILENO), close(cmds->redirs->fd_pipe[1]));
 	cmds->exit_status[i] = execve(cmds->path, cmds->args, envp);
 	print_error(cmds->args[0], 1);
-	(free_struct(cmds), exit(127));
+	(free_cmds(cmds), exit(127));
 }
 
 void pipe_mid(t_cmd *cmds, char **envp, int i)
@@ -125,7 +140,7 @@ void pipe_mid(t_cmd *cmds, char **envp, int i)
 	(dup2(cmds->redirs->fd_pipe[1], STDOUT_FILENO), close(cmds->redirs->fd_pipe[1]));
 	cmds->exit_status[i] = execve(cmds->path, cmds->args, envp);
 	print_error(cmds->args[0], 1);
-	(free_struct(cmds), exit(127));
+	(free_cmds(cmds), exit(127));
 }
 
 void pipe_out(t_cmd *cmds, char **envp, int i)
@@ -139,7 +154,7 @@ void pipe_out(t_cmd *cmds, char **envp, int i)
 	(dup2(fd, STDOUT_FILENO), close(fd));
 	cmds->exit_status[i] = execve(cmds->path, cmds->args, envp);
 	print_error(cmds->args[0], 1);
-	(free_struct(cmds), exit(127));
+	(free_cmds(cmds), exit(127));
 }
 
 void	redirs_exec(t_cmd *cmds, char **envp, t_token_type token, int i)
@@ -154,7 +169,7 @@ void	redirs_exec(t_cmd *cmds, char **envp, t_token_type token, int i)
 	{
 	cmds->exit_status[i] = execve(cmds->path, cmds->args, envp);
 	print_error(cmds->args[0], 1);
-	(free_struct(cmds), exit(127));
+	(free_cmds(cmds), exit(127));
 	}
 }
 
@@ -166,13 +181,13 @@ void	exec(t_shell *shell)
 
 //	if (argc != 5 || ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0)
 //		return (1);
-	lst_size = ft_lstsize(shell->cmds);
+	lst_size = ft_lstsize_cmd(shell->cmds);
 	i = 0;
 	pid = malloc(sizeof(int) * lst_size);
 	shell->cmds->exit_status = malloc(sizeof(int) * lst_size);
 	set_path(shell->cmds->args[0], shell->env, shell->cmds);
 	if (pipe(shell->cmds->redirs->fd_pipe) == -1)
-		return (1);
+		return (free_cmds(shell->cmds));
 	pid[i] = fork();
 	if (pid[i] == 0)
 		redirs_exec(shell->cmds, shell->env, TOKEN_PIPE_IN, i);
@@ -195,11 +210,11 @@ void	exec(t_shell *shell)
 	i = 0;
 	while (i != lst_size - 1)
 	{
-		if (waitpid(pid, &shell->cmds->exit_status[i], 0) == -1)
+		if (waitpid(pid[i], &shell->cmds->exit_status[i], 0) == -1)
 		{
 			perror("Commands not found\n");
 			g_signal = ((shell->cmds->exit_status[i] >> 8) & 0xFF);
-			free_struct(shell);
+			free_cmds(shell->cmds);
 		}
 	}
 }

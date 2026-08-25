@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/20 15:42:26 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/25 16:56:04 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static int	process_line(char *line, t_shell *shell)
 	free_tokens(tokens);
 	if (!shell->cmds)
 		return (0);
-	debug_print_cmds(shell->cmds);
+	// debug_print_cmds(shell->cmds);
+	exec(shell);
 	free_cmds(shell->cmds);
 	return (shell->cmds = NULL, 1);
 }

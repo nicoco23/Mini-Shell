@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/25 16:24:24 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/08/25 17:03:30 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_redir
 	t_token_type	type;
 	char			*target;
 	int				quoted;
+	int				fd;
 	int				fd_pipe[2];
 	struct s_redir	*next;
 }	t_redir;
@@ -175,4 +176,6 @@ void		free_cmds(t_cmd *cmds);
 /* debug_cmds.c */
 void		debug_print_cmds(t_cmd *cmds);
 void		debug_print_env(char **env);
+
+void	exec(t_shell *shell);
 #endif
