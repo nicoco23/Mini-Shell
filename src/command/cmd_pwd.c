@@ -3,15 +3,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 150
+#define BUFFER_SIZE 2147483647
 #endif
 
-void cmd_pwd(void)
+int cmd_pwd(void)
 {
-	char	filename[BUFFER_SIZE];
+	char	filename[i * BUFFER_SIZE];
 
 	getcwd(filename, BUFFER_SIZE);
-	printf("%s\n", filename);
+	if (filename != NULL)
+	{
+		printf("%s\n", filename);
+		return (0);
+	}
+	else if (i *)
+		cmd_
 }
 
 int	main(void)
