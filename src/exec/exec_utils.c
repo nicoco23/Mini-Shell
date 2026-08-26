@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:20:27 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 20:00:59 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/26 10:18:37 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	print_error(char *str, int i)
 {
 	ft_putstr_fd("mouliswag: ", 2);
 	if (i == 0)
-		ft_putstr_fd("command not found\n", 2);
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found...\n", 2);
+	}
 	else
 		perror(str);
 }
