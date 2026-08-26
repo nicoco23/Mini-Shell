@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/08/25 20:12:54 by ntassin          ###   ########.fr        #
+#    Updated: 2026/08/26 12:40:46 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3 -lreadline
-SRC =	main.c						\
+SRC =	src/main.c					\
 		src/parsing/parsing.c		\
 		src/parsing/expand.c		\
 		src/parsing/lexer_utils.c	\
@@ -30,7 +30,8 @@ SRC =	main.c						\
 		src/exec/exec_utils.c		\
 		src/exec/cmd_exec.c			\
 		
-OBJ = $(SRC:%.c=%.o)
+OBJ = $(SRC:src/%.c=obj/%.o)
+DEPS = $(SRC:src/%.c=obj/%.d)
 NAME = minishell
 HEADER = -I include -I .
 LINK = $(CC) $(CFLAGS)
@@ -50,12 +51,17 @@ $(NAME): $(LIBFT) $(OBJ)
 $(LIBFT):
 	make bonus -C $(LIBFT_DIR)
 
-%.o: %.c
+obj/%.o: src/%.c
+	@if [ ! -d obj ]; then mkdir obj ; fi
+	@if [ ! -d obj/exec ]; then mkdir obj/exec; fi
+	@if [ ! -d obj/parsing ]; then mkdir obj/parsing; fi
+	@if [ ! -d obj/signal ]; then mkdir obj/signal; fi
 	$(LINK) $(HEADER) -c $< -o $@
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(DEPS)
+	rm -rf obj
 	make -C $(LIBFT_DIR) clean
 
 .PHONY: fclean
