@@ -143,6 +143,11 @@ typedef struct s_wctx
 ** sig_atomic_t : garantit que l'écriture est atomique (pas de corruption).
 */
 extern volatile sig_atomic_t	g_signal;
+
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 2147483647
+#endif
+
 /* parsing.c */
 int			parsing(t_shell *shell);
 
@@ -202,6 +207,7 @@ void		set_path(char *arg, char **envp, t_cmd *cmds);
 
 /* cmd_exec.c */
 void		exec(t_shell *shell);
+void	print_error(char *str, int i);
 
 /* signal_wait.c */
 void		setup_signal_wait(void);

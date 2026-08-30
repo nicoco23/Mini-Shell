@@ -1,7 +1,0 @@
-#include "minishell.h"
-
-void cmd_cd(char *path, char **envp)
-{
-	path = strjoin(path + working directory)
-	chdir(path)
-}

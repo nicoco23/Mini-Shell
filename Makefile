@@ -29,6 +29,7 @@ SRC =	src/main.c					\
 		src/exec/path_utils.c		\
 		src/exec/exec_utils.c		\
 		src/exec/cmd_exec.c			\
+		src/command/cmd_pwd.c		\
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)
@@ -55,6 +56,7 @@ obj/%.o: src/%.c
 	@if [ ! -d obj ]; then mkdir obj ; fi
 	@if [ ! -d obj/exec ]; then mkdir obj/exec; fi
 	@if [ ! -d obj/parsing ]; then mkdir obj/parsing; fi
+	@if [ ! -d obj/command ]; then mkdir obj/command; fi
 	@if [ ! -d obj/signal ]; then mkdir obj/signal; fi
 	$(LINK) $(HEADER) -c $< -o $@
 
