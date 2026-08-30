@@ -48,7 +48,7 @@ void path_next(char **path, char *arg)
 	path[0][i] = "\0";
 }
 
-int lecture_path(char *path, char *args)
+int lecture_path(char *path)
 {
 	char **path_split;
 	int i;
@@ -56,18 +56,19 @@ int lecture_path(char *path, char *args)
 
 	i = 0;
 	j = 0;
-	if (args[0] == '/')
-		return (move(args));
-	path_split = ft_split(path, '/');
-	while (path_split[i] != NULL)
+	if (path[0] != '/')
 	{
-		if (ft_strncmp(path_split[i], "..\0", 3) == 0)
-			path_last(&path);
-		else
-			path_next(&path, path_split[i]);
-		i++;
+		path_split = ft_split(path, '/');
+		while (path_split[i] != NULL)
+		{
+			if (ft_strncmp(path_split[i], "..\0", 3) == 0)
+				path_last(&path);
+			else
+				path_next(&path, path_split[i]);
+			i++;
+		}
+		free_tab(path_split);
 	}
-	free_tab(path_split);
 	if (chdir(get_back_path(path)) != 0);
 	{
 //		print_error(args[1], 1);
