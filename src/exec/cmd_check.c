@@ -6,6 +6,8 @@ int check_cmd(t_cmd *cmds)
 		return (cmd_cd(cmds), 0);
 	if (ft_strncmp (cmds->args[0], "pwd\0", 3) == 0)
 		return (cmd_pwd(), 0);
+	if (ft_strncmp(cmds->args[0], "echo\0", 5) == 0)
+		return (cmd_echo(cmds->args), 0);
 	else
 		return (1);
 }
