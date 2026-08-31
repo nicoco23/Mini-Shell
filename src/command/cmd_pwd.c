@@ -4,12 +4,11 @@ int cmd_pwd(void)
 {
 	char	filename[BUFFER_SIZE];
 
-	getcwd(filename, BUFFER_SIZE);
-	if (filename != NULL)
+	if (getcwd(filename, BUFFER_SIZE) == NULL)
+		return (1);
+	else
 	{
 		printf("%s\n", filename);
 		return (0);
 	}
-	else
-		return(1);
 }

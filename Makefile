@@ -6,7 +6,7 @@
 #    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/08/26 12:40:46 by ltournie         ###   ########.fr        #
+#    Updated: 2026/08/31 12:09:20 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ SRC =	src/main.c					\
 		src/exec/path_utils.c		\
 		src/exec/exec_utils.c		\
 		src/exec/cmd_exec.c			\
+		src/exec/cmd_check.c		\
 		src/command/cmd_pwd.c		\
+		src/command/cmd_cd.c		\
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)

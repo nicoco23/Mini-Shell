@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/26 12:24:31 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/08/31 12:08:32 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,13 @@ void		set_path(char *arg, char **envp, t_cmd *cmds);
 /* cmd_exec.c */
 void		exec(t_shell *shell);
 void	print_error(char *str, int i);
+
+/*cmd_check*/
+int check_cmd(t_cmd *cmds);
+
+/*cmd_cd*/
+int cmd_cd(t_cmd *cmds);
+int cmd_pwd(void);
 
 /* signal_wait.c */
 void		setup_signal_wait(void);
