@@ -63,7 +63,6 @@ int lecture_path(char *fullpath, char *path)
 		path_split = ft_split(path, '/');
 		while (path_split[i] != NULL)
 		{
-			printf("%s\n", fullpath);
 			if (ft_strncmp(path_split[i], "..\0", 3) == 0)
 				path_last(&fullpath);
 			else
@@ -71,14 +70,9 @@ int lecture_path(char *fullpath, char *path)
 			i++;
 		}
 		free_tab(path_split);
-		printf("%s\n", fullpath);
 	}
 	if (chdir(path) != 0)
-	{
-		printf("error chdir\n");
 		return (1);
-	}
-	printf("working chdir\n");
 	return (0);
 }
 

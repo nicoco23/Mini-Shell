@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/31 14:15:48 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/31 21:25:55 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
 	close_if_open(pipe_fd[1]);
 	if (apply_redirs(cmd))
 		(free_cmds(cmd), exit(1));
-	if (check_cmd(cmd) == 0)
+	if (check_cmd(cmd, envp) == 0)
 		(free_cmds(cmd), exit(0));
 	set_path(cmd->args[0], envp, cmd);
 	if (!cmd->path)

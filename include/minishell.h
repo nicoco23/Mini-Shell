@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/31 14:10:59 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/31 21:22:02 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ void		update_exit_status(t_shell *shell, int status);
 /* signal_heredoc.c*/
 void		setup_signal_heredoc(void);
 
+/* signal_wait.c */
+void		setup_signal_wait(void);
+
 /* heredoc.c */
 int			read_heredocs(t_cmd *cmds);
 
@@ -210,16 +213,16 @@ void		exec(t_shell *shell);
 void		print_error(char *str, int i);
 
 /*cmd_check*/
-int 		check_cmd(t_cmd *cmds);
+int 		check_cmd(t_cmd *cmds, char **env);
 
 /*cmd_cd*/
 int 		cmd_cd(t_cmd *cmds);
 int 		cmd_pwd(void);
 
-/* signal_wait.c */
-void		setup_signal_wait(void);
-
 /* cmd_echo.c */
 int			cmd_echo(char **args);
+
+/*cmd_env*/
+int 		cmd_env(char **env);
 
 #endif
