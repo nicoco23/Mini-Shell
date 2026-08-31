@@ -33,6 +33,7 @@ SRC =	src/main.c					\
 		src/command/cmd_pwd.c		\
 		src/command/cmd_cd.c		\
 		src/command/cmd_echo.c		\
+		src/command/cmd_env.c		\
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)

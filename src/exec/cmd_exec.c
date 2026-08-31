@@ -23,7 +23,7 @@ static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
 	close_if_open(pipe_fd[1]);
 	if (apply_redirs(cmd))
 		(free_cmds(cmd), exit(1));
-	if (check_cmd(cmd) == 0)
+	if (check_cmd(cmd, envp) == 0)
 		(free_cmds(cmd), exit(0));
 	set_path(cmd->args[0], envp, cmd);
 	if (!cmd->path)
