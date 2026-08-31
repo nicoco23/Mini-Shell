@@ -41,6 +41,8 @@ void path_next(char **path, char *arg)
 	j = 0;
 	while (path[0][i] != '\0')
 		i++;
+	path[0][i] = '/';
+	i++;
 	while (arg[j] != '\0')
 	{
 		path[0][i] = arg[j];
@@ -50,44 +52,46 @@ void path_next(char **path, char *arg)
 	path[0][i] = '\0';
 }
 
-int lecture_path(char *path)
+int lecture_path(char *fullpath, char *path)
 {
 	char **path_split;
 	int i;
 
 	i = 0;
-	if (path[0] != '/')
+	if (path[0] != '/' )
 	{
 		path_split = ft_split(path, '/');
 		while (path_split[i] != NULL)
 		{
+			printf("%s\n", fullpath);
 			if (ft_strncmp(path_split[i], "..\0", 3) == 0)
-				path_last(&path);
+				path_last(&fullpath);
 			else
-				path_next(&path, path_split[i]);
+				path_next(&fullpath, path_split[i]);
 			i++;
 		}
 		free_tab(path_split);
+		printf("%s\n", fullpath);
 	}
 	if (chdir(path) != 0)
 	{
-//		print_error(args[1], 1);
+		printf("error chdir\n");
 		return (1);
 	}
+	printf("working chdir\n");
 	return (0);
 }
 
 int cmd_cd(t_cmd *cmds)
 {
-	char	filename[BUFFER_SIZE];
+	char	filepath[BUFFER_SIZE];
 
-
-	if (parsing_cd(cmds->args) == 0)
+	if (parsing_cd(cmds->args) != 0)
 		return (1);
-	getcwd(filename, BUFFER_SIZE);
-	if (getcwd(filename, BUFFER_SIZE) == NULL)
+	getcwd(filepath, BUFFER_SIZE);
+	if (getcwd(filepath, BUFFER_SIZE) == NULL)
 		return (1);
-	if (lecture_path(cmds->args[1]) == 1)
+	if (lecture_path(filepath, cmds->args[1]) == 1)
 	{
 		ft_putstr_fd("Mouliswag: no such file or directory: ", 2);
 		ft_putstr_fd(cmds->args[1], 2);
