@@ -8,7 +8,8 @@ int cmd_pwd(void)
 		return (1);
 	else
 	{
-		printf("%s\n", filename);
+		ft_putstr_fd(filename, 1);
+		ft_putstr_fd("\n", 1);
 		return (0);
 	}
 }

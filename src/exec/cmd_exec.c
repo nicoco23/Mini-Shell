@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/31 21:25:55 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/31 21:38:05 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,12 @@ void	exec(t_shell *shell)
 	int		lst_size;
 	int		n;
 
+	if (!shell->cmds->next && shell->cmds->args && shell->cmds->args[0]
+		&& is_builtin(shell->cmds->args[0]))
+	{
+		shell->last_exit = run_builtin_parent(shell, shell->cmds);
+		return ;
+	}
 	lst_size = ft_listsize_cmd(shell->cmds);
 	pids = malloc(sizeof(pid_t) * lst_size);
 	if (!pids)

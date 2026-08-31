@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/31 21:22:02 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/08/31 22:27:17 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define EXIT_SYNTAX_ERROR 2
 
+# include <limits.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -144,10 +145,6 @@ typedef struct s_wctx
 */
 extern volatile sig_atomic_t	g_signal;
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 2147483647
-#endif
-
 /* parsing.c */
 int			parsing(t_shell *shell);
 
@@ -214,6 +211,8 @@ void		print_error(char *str, int i);
 
 /*cmd_check*/
 int 		check_cmd(t_cmd *cmds, char **env);
+int			is_builtin(char *name);
+int			run_builtin_parent(t_shell *shell, t_cmd *cmd);
 
 /*cmd_cd*/
 int 		cmd_cd(t_cmd *cmds);

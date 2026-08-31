@@ -8,7 +8,10 @@ int cmd_env(char **env)
     if (env != NULL)
     {
         while (env[i] != NULL)
-            printf("%s\n", env[i++]);
+        {
+            ft_putstr_fd(env[i++], 1);
+            ft_putstr_fd("\n", 1);
+        }
         return (0);
     }
     return (1);
