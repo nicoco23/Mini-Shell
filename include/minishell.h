@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/08/31 22:27:17 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/01 10:22:55 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,6 @@ int			cmd_echo(char **args);
 
 /*cmd_env*/
 int 		cmd_env(char **env);
+int			cmd_exit(t_shell *shell, char **args);
 
 #endif

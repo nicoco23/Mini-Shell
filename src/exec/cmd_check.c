@@ -40,6 +40,8 @@ static int	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		return (cmd_echo(cmd->args));
 	if (ft_strncmp(name, "env\0", 4) == 0)
 		return (cmd_env(shell->env));
+	if (strncmp(name, "exit\0", 5) == 0)
+		return (cmd_exit(shell, cmd->args));
 	return (0);
 }
 
