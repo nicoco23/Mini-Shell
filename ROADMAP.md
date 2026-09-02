@@ -177,3 +177,14 @@ disponible en entrée, pour éviter d'avoir à deviner :
 - Phase 5 (bonus), la liste "Points d'attention critiques", et l'ordre suggéré
   restent valides et ne sont pas repris ici pour éviter la duplication —
   se référer à `ROADMAP.md` pour ces sections.
+
+
+ERREUR ACTUELLES
+
+$$ -> senser return le pid du terminal
+$! -> a faire?? a pas faire ??
+mimishell dans minishell dans une commande (cat puis ls) fait apparaitre ce qui ressemble a une adresse, a check (./minishell | ./minishell | cat puis ls)
+
+completer cd (retour home quand vide)
+completer export (vide plus avec argument valide)
+completer unset (vide plus avec argument valide)
