@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/01 10:22:55 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/02 16:00:47 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,19 +210,31 @@ void		exec(t_shell *shell);
 void		print_error(char *str, int i);
 
 /*cmd_check*/
-int 		check_cmd(t_cmd *cmds, char **env);
+int			check_cmd(t_cmd *cmds, char **env);
 int			is_builtin(char *name);
 int			run_builtin_parent(t_shell *shell, t_cmd *cmd);
 
 /*cmd_cd*/
-int 		cmd_cd(t_cmd *cmds);
-int 		cmd_pwd(void);
+int			cmd_cd(t_cmd *cmds);
+int			cmd_pwd(void);
 
 /* cmd_echo.c */
 int			cmd_echo(char **args);
 
 /*cmd_env*/
-int 		cmd_env(char **env);
+int			cmd_env(char **env);
 int			cmd_exit(t_shell *shell, char **args);
+
+/* env_utils.c*/
+int			env_count(char **env);
+int			env_index(char **env, const char *name);
+int			env_set(t_shell *shell, const char *entry);
+
+/* env_sort.c */
+char		**sort_env_copy(char **env, int *n);
+
+/* cmd_export.c */
+int			is_valid_id(const char *s);
+int			cmd_export(t_shell *shell, char **args);
 
 #endif

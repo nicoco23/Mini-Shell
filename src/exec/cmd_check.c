@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int check_cmd(t_cmd *cmds, char **env)
+int	check_cmd(t_cmd *cmds, char **env)
 {
 	if (ft_strncmp (cmds->args[0], "cd\0", 3) == 0)
 		return (cmd_cd(cmds), 0);
@@ -42,6 +42,8 @@ static int	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		return (cmd_env(shell->env));
 	if (strncmp(name, "exit\0", 5) == 0)
 		return (cmd_exit(shell, cmd->args));
+	if (strncmp(name, "export\0", 7) == 0)
+		return (cmd_export(shell, cmd->args));
 	return (0);
 }
 

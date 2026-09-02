@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/01 10:24:28 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/02 16:02:34 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,9 @@ SRC =	src/main.c					\
 		src/command/cmd_echo.c		\
 		src/command/cmd_env.c		\
 		src/command/cmd_exit.c		\
+		src/command/cmd_export.c	\
+		src/command/env_utils.c		\
+		src/command/env_sort.c		\
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)
