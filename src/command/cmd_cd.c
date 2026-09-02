@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int parsing_cd(char **args)
+int	parsing_cd(char **args)
 {
 	if (ft_strlen(args[1]) == 0 && args[1])
 		return (1);
@@ -12,10 +12,10 @@ int parsing_cd(char **args)
 	return (0);
 }
 
-void path_last(char **path)
+void	path_last(char **path)
 {
-	int i;
-	int nb;
+	int	i;
+	int	nb;
 
 	i = 0;
 	nb = 0;
@@ -32,10 +32,10 @@ void path_last(char **path)
 	}
 }
 
-void path_next(char **path, char *arg)
+void	path_next(char **path, char *arg)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -52,10 +52,10 @@ void path_next(char **path, char *arg)
 	path[0][i] = '\0';
 }
 
-int lecture_path(char *fullpath, char *path)
+int	lecture_path(char *fullpath, char *path)
 {
-	char **path_split;
-	int i;
+	char	**path_split;
+	int		i;
 
 	i = 0;
 	if (path[0] != '/' )
@@ -76,7 +76,7 @@ int lecture_path(char *fullpath, char *path)
 	return (0);
 }
 
-int cmd_cd(t_cmd *cmds)
+int	cmd_cd(t_cmd *cmds)
 {
 	char	filepath[BUFFER_SIZE];
 

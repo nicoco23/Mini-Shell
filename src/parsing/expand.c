@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 13:57:34 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/02 16:41:54 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/02 17:23:37 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	expand_dollar(char *line, int *i, t_wctx *ctx)
 		return ((*i)++, expand_exit(ctx));
 	if (ft_isdigit(line[*i]))
 		return ((*i)++, 1);
-	if (line[*i] == '\'' || line[*i] == '"')
-		return (1);
 	if (!ft_isalpha(line[*i]) && line[*i] != '_')
 		return (append_char(ctx->word, '$'));
 	name = get_var_name(line, i);
@@ -86,4 +84,3 @@ int	expand_dollar(char *line, int *i, t_wctx *ctx)
 	free(name);
 	return (append_str(ctx->word, value));
 }
-

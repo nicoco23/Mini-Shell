@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 10:37:11 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/20 15:49:59 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/02 17:36:34 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,12 @@
 static int	consume_char(char *line, int *i, t_wctx *ctx)
 {
 	if (line[*i] == '\'' || line[*i] == '"')
-	{
-		if (!read_quoted(line, i, line[*i], ctx))
-			return (0);
-	}
-	else if (line[*i] == '$')
-	{
-		if (!expand_dollar(line, i, ctx))
-			return (0);
-	}
-	else if (!append_char(ctx->word, line[(*i)++]))
-		return (0);
-	return (1);
+		return (read_quoted(line, i, line[*i], ctx));
+	if (line[*i] == '$' && (line[*i + 1] == '\'' || line[*i + 1] == '"'))
+		return ((*i)++, 1);
+	if (line[*i] == '$')
+		return (expand_dollar(line, i, ctx));
+	return (append_char(ctx->word, line[(*i)++]));
 }
 
 char	*get_word(char *line, int *i, t_shell *shell, int *quoted)
@@ -70,6 +64,8 @@ static int	handle_word(char *line, int *i, t_token **list, t_shell *shell)
 	word = get_word(line, i, shell, &quoted);
 	if (!word)
 		return (0);
+	if (word[0] == '\0' && !quoted)
+		return (free(word), 1);
 	token = new_token(TOKEN_WORD, word);
 	free(word);
 	if (!token)
