@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/02 16:22:44 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/02 16:25:30 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,8 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) $(LDLIBS)
-	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB)
+$(NAME): $(LIBFT) $(OBJ)
+	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB) $(LDLIBS)
 
 .PHONY: libft
 $(LIBFT):
