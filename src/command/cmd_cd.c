@@ -76,12 +76,28 @@ int lecture_path(char *fullpath, char *path)
 	return (0);
 }
 
+int go_home(void)
+{
+	if (chdir("/home") != 0)
+		return (1);
+	return (0);
+}
+
 int cmd_cd(t_cmd *cmds)
 {
 	char	filepath[BUFFER_SIZE];
 
 	if (parsing_cd(cmds->args) != 0)
 		return (1);
+	if (cmds->args[1] == NULL)
+	{
+		if (go_home() == 0)
+			return (0);
+		ft_putstr_fd("Mouliswag: no such file or directory: ", 2);
+		ft_putstr_fd(cmds->args[1], 2);
+		ft_putstr_fd("\n", 2);
+		return (1);
+	}
 	getcwd(filepath, BUFFER_SIZE);
 	if (getcwd(filepath, BUFFER_SIZE) == NULL)
 		return (1);

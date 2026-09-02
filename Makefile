@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/02 16:02:34 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/02 17:56:53 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB)
+	$(LINK) $(OBJ) $(LIBFT_LIB) -o $(NAME)
 
 .PHONY: libft
 $(LIBFT):
@@ -66,7 +66,7 @@ obj/%.o: src/%.c
 	@if [ ! -d obj/parsing ]; then mkdir obj/parsing; fi
 	@if [ ! -d obj/command ]; then mkdir obj/command; fi
 	@if [ ! -d obj/signal ]; then mkdir obj/signal; fi
-	$(LINK) $(HEADER) -c $< -o $@
+	$(LINK) $(HEADER) -MMD -MP -c $< -o $@
 
 .PHONY: clean
 clean:
