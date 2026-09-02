@@ -3,80 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 15:28:07 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 14:30:25 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	heredoc_loop(int fd, char *delim)
+static int	open_hd_tmp(char **path_out)
 {
-	char	*line;
-	int		savec_stdin;
+	char	*nb;
+	char	*path;
+	int		seq;
+	int		fd;
 
-	savec_stdin = dup(STDIN_FILENO);
-	line = readline("> ");
-	while (line && g_signal != SIGINT)
+	seq = 0;
+	fd = -1;
+	while (fd == -1 && seq < 10000)
 	{
-		if (ft_strlen(line) == ft_strlen(delim)
-			&& !ft_strncmp(line, delim, ft_strlen(delim)))
-		{
-			free(line);
-			close(savec_stdin);
-			return (0);
-		}
-		ft_putendl_fd(line, fd);
-		free(line);
-		line = readline("> ");
+		nb = ft_itoa(seq++);
+		if (!nb)
+			return (-1);
+		path = ft_strjoin("/tmp/.mouliswag_hd_", nb);
+		free(nb);
+		if (!path)
+			return (-1);
+		fd = open(path, O_CREAT | O_EXCL | O_WRONLY, 0600);
+		if (fd == -1)
+			free(path);
 	}
-	free(line);
-	if (g_signal == SIGINT)
-	{
-		dup2(savec_stdin, STDIN_FILENO);
-		close(savec_stdin);
+	if (fd == -1)
 		return (-1);
-	}
-	ft_putstr_fd("mouliswag: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
-	ft_putstr_fd(delim, STDERR_FILENO);
-	ft_putstr_fd("')\n", STDERR_FILENO);
-	close(savec_stdin);
-	return (1);
+	return (*path_out = path, fd);
 }
 
-static int	read_one_heredoc(t_redir *redir)
+static int	read_one_heredoc(t_redir *redir, t_shell *shell)
 {
-	int	pipe_fd[2];
+	char	*path;
+	int		wfd;
+	int		rfd;
+	int		ret;
 
 	setup_signal_heredoc();
-	if (pipe(pipe_fd) == -1)
-		return (-1);
-	if (heredoc_loop(pipe_fd[1], redir->target) == -1)
-		return (close(pipe_fd[0]), close(pipe_fd[1]), -1);
-	close(pipe_fd[1]);
-	redir->fd_pipe[0] = pipe_fd[0];
+	path = NULL;
+	wfd = open_hd_tmp(&path);
+	if (wfd == -1)
+		return (perror("mouliswag: heredoc"), -2);
+	ret = heredoc_loop(wfd, redir, shell);
+	close(wfd);
+	if (ret != 0)
+		return (unlink(path), free(path), ret);
+	rfd = open(path, O_RDONLY);
+	unlink(path);
+	free(path);
+	if (rfd == -1)
+		return (perror("mouliswag: heredoc"), -2);
+	return (redir->fd_pipe[0] = rfd, 0);
+}
+
+static int	hd_list(t_redir *redir, t_shell *shell)
+{
+	int	ret;
+
+	while (redir)
+	{
+		if (redir->type == TOKEN_REDIR_HEREDOC)
+		{
+			ret = read_one_heredoc(redir, shell);
+			if (ret != 0)
+				return (ret);
+		}
+		redir = redir->next;
+	}
 	return (0);
 }
 
-int	read_heredocs(t_cmd *cmds)
+int	read_heredocs(t_cmd *cmds, t_shell *shell)
 {
-	t_redir	*redir;
-	int		interrupted;
+	int	ret;
 
-	interrupted = 0;
-	while (cmds && !interrupted)
+	while (cmds)
 	{
-		redir = cmds->redirs;
-		while (redir && !interrupted)
-		{
-			if (redir->type == TOKEN_REDIR_HEREDOC
-				&& read_one_heredoc(redir) == -1)
-				interrupted = 1;
-			redir = redir->next;
-		}
+		ret = hd_list(cmds->redirs, shell);
+		if (ret != 0)
+			return (ret);
 		cmds = cmds->next;
 	}
-	return (interrupted);
+	return (0);
 }

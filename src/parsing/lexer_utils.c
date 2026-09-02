@@ -66,7 +66,7 @@ int	read_quoted(char *line, int *i, char quote, t_wctx *ctx)
 	(*i)++;
 	while (line[*i] && line[*i] != quote)
 	{
-		if (quote == '"' && line[*i] == '$')
+		if (quote == '"' && line[*i] == '$' && !ctx->raw)
 		{
 			if (!expand_dollar(line, i, ctx))
 				return (0);

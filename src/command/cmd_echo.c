@@ -54,7 +54,6 @@ int	cmd_echo(char **args)
 	if (newline)
 		k += ft_putstr_fd("\n", 1);
 	if (k < 0)
-		return (write(2, "echo: write error: No space left on device\n"\
-, 44) - 42);
+		return (write_error("echo"), 1);
 	return (0);
 }

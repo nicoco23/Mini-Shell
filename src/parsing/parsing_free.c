@@ -19,8 +19,8 @@ static void	free_redirs(t_redir *redirs)
 	while (redirs)
 	{
 		tmp = redirs->next;
-		// if (redirs->fd_pipe[0] != -1)
-		// 	close(redirs->fd_pipe[0]);
+		if (redirs->fd_pipe[0] != -1)
+			close(redirs->fd_pipe[0]);
 		free(redirs->target);
 		free(redirs);
 		redirs = tmp;

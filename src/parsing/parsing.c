@@ -21,13 +21,19 @@ static int	is_blank(char *line)
 
 static int	build_and_run(t_shell *shell, t_token *token)
 {
+	int	hd;
+
 	shell->cmds = build_cmds(token);
 	free_tokens(token);
 	if (!shell->cmds)
 		return (0);
-	if (read_heredocs(shell->cmds))
+	hd = read_heredocs(shell->cmds, shell);
+	if (hd != 0)
 	{
-		shell->last_exit = 130;
+		if (hd == -1)
+			shell->last_exit = 130;
+		else
+			shell->last_exit = 1;
 		free_cmds(shell->cmds);
 		return (shell->cmds = NULL, 0);
 	}
@@ -54,34 +60,32 @@ static int	process_line(char *line, t_shell *shell)
 	return (build_and_run(shell, tokens));
 }
 
-static char	*read_prompt_line(t_shell *shell)
+char	*read_input_line(const char *prompt)
 {
-    char	*line;
-    size_t	len;
+	char	*line;
+	size_t	len;
 
-    (void)shell;
-    if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-    {
-        if (g_signal == SIGINT)
-        {
-            write(1, "\n", 1);
-            g_signal = 0;
-        }
-        return (readline("MouliSwag $ "));
-    }
-    line = get_next_line(STDIN_FILENO);
-    if (!line)
-        return (NULL);
-    len = ft_strlen(line);
-    if (len > 0 && line[len - 1] == '\n')
-        line[len - 1] = '\0';
-    return (line);
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+		return (readline(prompt));
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+	return (line);
 }
 
 int	parsing(t_shell *shell)
 {
 	setup_signal_prompt();
-	shell->line = read_prompt_line(shell);
+	if (g_signal == SIGINT)
+	{
+		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+			write(1, "\n", 1);
+		g_signal = 0;
+	}
+	shell->line = read_input_line("MouliSwag $ ");
 	if (g_signal == SIGINT)
 	{
 		shell->last_exit = 130;

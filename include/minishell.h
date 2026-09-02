@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 16:42:41 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 14:34:24 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef enum e_token_type
 	TOKEN_PIPE_MID, // sortie de pipe
 }	t_token_type;
 
-/* ==== TOKEN ==== */ 
+/* ==== TOKEN ==== */
 
 typedef struct s_token
 {
@@ -105,8 +105,10 @@ typedef struct s_shell
 typedef struct s_wctx
 {
 	char	**word;
+	char	*buf;
 	t_shell	*shell;
 	int		*quoted;
+	int		raw;
 }	t_wctx;
 
 /* ======= SIGNAUX ======= */
@@ -124,6 +126,7 @@ void		token_add_back(t_token **list, t_token *new);
 int			is_separator(char c);
 int			append_char(char **word, char c);
 int			read_quoted(char *line, int *i, char quote, t_wctx *ctx);
+char		*read_input_line(const char *prompt);
 
 /* lexer.c */
 t_token		*lexer(char *line, t_shell *shell);
@@ -161,7 +164,8 @@ void		setup_signal_heredoc(void);
 void		setup_signal_wait(void);
 
 /* heredoc.c */
-int			read_heredocs(t_cmd *cmds);
+int			read_heredocs(t_cmd *cmds, t_shell *shell);
+int			heredoc_loop(int fd, t_redir *redir, t_shell *shell);
 
 /* exec_utils.c*/
 int			ft_listsize_cmd(t_cmd *lst);

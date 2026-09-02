@@ -65,15 +65,15 @@ int	apply_redirs(t_cmd *cmd)
 		if (r->type == TOKEN_REDIR_IN)
 			fd = open(r->target, O_RDONLY);
 		else if (r->type == TOKEN_REDIR_OUT)
-			fd = open(r->target, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd = open(r->target, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		else if (r->type == TOKEN_REDIR_APPEND)
-			fd = open(r->target, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			fd = open(r->target, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		else if (r->type == TOKEN_REDIR_HEREDOC)
 			fd = r->fd_pipe[0];
 		if (fd == -1)
-			return (perror(r->target), 1);
+			return (ft_putstr_fd("mouliswag: ", 2), perror(r->target), 1);
 		if (r->type == TOKEN_REDIR_IN || r->type == TOKEN_REDIR_HEREDOC)
-			(dup2(fd, STDIN_FILENO), close(fd));
+			(dup2(fd, STDIN_FILENO), close(fd), r->fd_pipe[0] = -1);
 		else
 			(dup2(fd, STDOUT_FILENO), close(fd));
 		r = r->next;

@@ -54,7 +54,7 @@ int	cmd_cd(t_shell *shell, t_cmd *cmd)
 	if (cmd->args[1] && cmd->args[2])
 		return (ft_putstr_fd("mouliswag: cd: too many arguments\n", 2), 1);
 	if (cmd->args[1] && !cmd->args[1][0])
-		return (0);
+		return (ft_putstr_fd("mouliswag: cd: null directory\n", 2), 1);
 	path = cd_target(shell, cmd->args);
 	if (!path)
 		return (1);

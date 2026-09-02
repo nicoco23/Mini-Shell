@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
+#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/08 21:18:10 by ltournie         ###   ########.fr        #
+#    Updated: 2026/09/09 14:35:36 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC =	src/main.c					\
 		src/parsing/parsing_free.c	\
 		src/parsing/debug_cmds.c	\
 		src/parsing/heredoc.c		\
+		src/parsing/heredoc_utils.c	\
 		src/signal/signal.c			\
 		src/signal/signal_heredoc.c	\
 		src/signal/signal_wait.c	\
@@ -94,3 +95,5 @@ re: fclean $(NAME)
 
 run: $(NAME)
 	valgrind --track-fds=yes --trace-children=yes --suppressions=ignore_readline --leak-check=full --show-leak-kinds=all ./minishell
+
+-include $(DEPS)
