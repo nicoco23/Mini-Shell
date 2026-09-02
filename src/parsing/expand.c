@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 13:57:34 by ntassin           #+#    #+#             */
-/*   Updated: 2026/06/22 15:11:10 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/02 16:41:54 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,31 @@ static char	*get_var_name(char *line, int *i)
 	return (ft_substr(line, start, *i - start));
 }
 
+static int	expand_exit(t_wctx *ctx)
+{
+	char	*exit_str;
+	int		ok;
+
+	exit_str = ft_itoa(ctx->shell->last_exit);
+	if (!exit_str)
+		return (0);
+	ok = append_str(ctx->word, exit_str);
+	free(exit_str);
+	return (ok);
+}
+
 int	expand_dollar(char *line, int *i, t_wctx *ctx)
 {
 	char	*name;
 	char	*value;
-	char	*exit_str;
 
 	(*i)++;
 	if (line[*i] == '?')
-	{
-		(*i)++;
-		exit_str = ft_itoa(ctx->shell->last_exit);
-		if (!exit_str)
-			return (0);
-		if (!append_str(ctx->word, exit_str))
-			return (free(exit_str), 0);
-		free(exit_str);
+		return ((*i)++, expand_exit(ctx));
+	if (ft_isdigit(line[*i]))
+		return ((*i)++, 1);
+	if (line[*i] == '\'' || line[*i] == '"')
 		return (1);
-	}
 	if (!ft_isalpha(line[*i]) && line[*i] != '_')
 		return (append_char(ctx->word, '$'));
 	name = get_var_name(line, i);
@@ -79,3 +86,4 @@ int	expand_dollar(char *line, int *i, t_wctx *ctx)
 	free(name);
 	return (append_str(ctx->word, value));
 }
+
