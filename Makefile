@@ -6,12 +6,13 @@
 #    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/02 17:56:53 by ltournie         ###   ########.fr        #
+#    Updated: 2026/09/03 13:07:40 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -lreadline
+CFLAGS = -Wall -Wextra -Werror -g3
+LDLIBS = -lreadline
 SRC =	src/main.c					\
 		src/parsing/parsing.c		\
 		src/parsing/expand.c		\
@@ -54,7 +55,7 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(LINK) $(OBJ) $(LIBFT_LIB) -o $(NAME)
+	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB) $(LDLIBS)
 
 .PHONY: libft
 $(LIBFT):
