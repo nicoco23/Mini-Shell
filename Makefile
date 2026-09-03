@@ -6,7 +6,7 @@
 #    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/03 13:07:40 by ltournie         ###   ########.fr        #
+#    Updated: 2026/09/03 13:08:22 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB) $(LDLIBS)
+	$(LINK) $(OBJ) $(LIBFT_LIB) $(LDLIBS) -o $(NAME)
 
 .PHONY: libft
 $(LIBFT):
