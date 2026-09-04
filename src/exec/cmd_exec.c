@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/31 21:38:05 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/04 19:57:58 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
+static void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 {
 	setup_signal_exec();
 	if (in_fd != -1)
@@ -23,12 +23,12 @@ static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
 	close_if_open(pipe_fd[1]);
 	if (apply_redirs(cmd))
 		(free_cmds(cmd), exit(1));
-	if (check_cmd(cmd, envp) == 0)
+	if (check_cmd(cmd, shell) == 0)
 		(free_cmds(cmd), exit(0));
-	set_path(cmd->args[0], envp, cmd);
+	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
 		(print_error(cmd->args[0], 0), free_cmds(cmd), exit(127));
-	execve(cmd->path, cmd->args, envp);
+	execve(cmd->path, cmd->args, shell->env);
 	print_error(cmd->args[0], 1);
 	(free_cmds(cmd), exit(126));
 }
@@ -39,7 +39,7 @@ static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 
 	pid = fork();
 	if (pid == 0)
-		child_process(cmd, shell->env, in_fd, pipe_fd);
+		child_process(cmd, shell, in_fd, pipe_fd);
 	return (pid);
 }
 

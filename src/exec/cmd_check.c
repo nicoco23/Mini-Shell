@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_cmd(t_cmd *cmds, char **env)
+int	check_cmd(t_cmd *cmds, t_shell *shell)
 {
 	if (ft_strncmp (cmds->args[0], "cd\0", 3) == 0)
 		return (cmd_cd(cmds), 0);
@@ -9,7 +9,13 @@ int	check_cmd(t_cmd *cmds, char **env)
 	if (ft_strncmp(cmds->args[0], "echo\0", 5) == 0)
 		return (cmd_echo(cmds->args), 0);
 	if (ft_strncmp(cmds->args[0], "env\0", 4) == 0)
-		return (cmd_env(env), 0);
+		return (cmd_env(shell->env), 0);
+	if (ft_strncmp(cmds->args[0], "exit\0", 5) == 0)
+		return (cmd_exit(shell, cmds->args));
+	if (strncmp(cmds->args[0], "export\0", 7) == 0)
+		return (cmd_export(shell, cmds->args));
+	if (strncmp(cmds->args[0], "unset\0", 6) == 0)
+		return (cmd_unset(cmds->args, shell));
 	else
 		return (1);
 }
@@ -44,6 +50,8 @@ static int	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 		return (cmd_exit(shell, cmd->args));
 	if (strncmp(name, "export\0", 7) == 0)
 		return (cmd_export(shell, cmd->args));
+	if (strncmp(name, "unset\0", 6) == 0)
+		return (cmd_unset(cmd->args, shell));
 	return (0);
 }
 

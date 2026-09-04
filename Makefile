@@ -6,7 +6,7 @@
 #    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/03 13:08:22 by ltournie         ###   ########.fr        #
+#    Updated: 2026/09/04 16:40:16 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC =	src/main.c					\
 		src/command/cmd_export.c	\
 		src/command/env_utils.c		\
 		src/command/env_sort.c		\
+		src/command/cmd_unset.c		\
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)
