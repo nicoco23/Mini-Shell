@@ -1,15 +1,14 @@
 #include "minishell.h"
 
-int	cmd_pwd(void)
+int	cmd_pwd(t_shell *shell)
 {
-	char	filename[BUFFER_SIZE];
+	char	cwd[PATH_MAX];
+	char	*pwd;
 
-	if (getcwd(filename, BUFFER_SIZE) == NULL)
-		return (1);
-	else
-	{
-		ft_putstr_fd(filename, 1);
-		ft_putstr_fd("\n", 1);
-		return (0);
-	}
+	if (getcwd(cwd, PATH_MAX))
+		return (putendl_check(cwd, 1));
+	pwd = env_get(shell->env, "PWD");
+	if (pwd)
+		return (putendl_check(pwd, 1));
+	return (write_error("pwd"), 1);
 }

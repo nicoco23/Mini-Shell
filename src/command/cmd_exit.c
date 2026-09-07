@@ -49,7 +49,7 @@ int	cmd_exit(t_shell *shell, char **args)
 		return (2);
 	}
 	if (args[2])
-		return (ft_putstr_fd("mouliswag: exit: too many arguments\n", 2), 2);
+		return (ft_putstr_fd("mouliswag: exit: too many arguments\n", 2), 1);
 	clean_exit(shell, (unsigned char)code);
 	return (0);
 }

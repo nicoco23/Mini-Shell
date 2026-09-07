@@ -19,9 +19,9 @@ static int	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 
 	name = cmd->args[0];
 	if (ft_strncmp(name, "cd", 3) == 0)
-		return (cmd_cd(cmd));
+		return (cmd_cd(shell, cmd));
 	if (ft_strncmp(name, "pwd", 4) == 0)
-		return (cmd_pwd());
+		return (cmd_pwd(shell));
 	if (ft_strncmp(name, "echo", 5) == 0)
 		return (cmd_echo(cmd->args));
 	if (ft_strncmp(name, "env", 4) == 0)

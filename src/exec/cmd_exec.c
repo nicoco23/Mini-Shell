@@ -6,38 +6,11 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 15:37:40 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 20:56:56 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
-{
-	int	ret;
-
-	setup_signal_exec();
-	if (in_fd != -1)
-		(dup2(in_fd, STDIN_FILENO), close(in_fd));
-	if (pipe_fd[1] != -1)
-		dup2(pipe_fd[1], STDOUT_FILENO);
-	close_if_open(pipe_fd[0]);
-	close_if_open(pipe_fd[1]);
-	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
-	{
-		ret = run_builtin(shell, cmd);
-		clean_exit(shell, ret);
-	}
-	if (apply_redirs(cmd))
-		clean_exit(shell, 1);
-	set_path(cmd->args[0], shell->env, cmd);
-	if (!cmd->path)
-		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
-	execve(cmd->path, cmd->args, shell->env);
-	print_error(cmd->args[0], 1);
-	clean_exit(shell, 126);
-}
-
 
 static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 {
@@ -67,15 +40,18 @@ static int	fork_pipeline(t_shell *shell, pid_t *pids)
 			break ;
 		pids[i] = fork_stage(cmd, shell, in_fd, pipe_fd);
 		if (pids[i] == -1)
+		{
+			close_if_open(pipe_fd[0]);
+			close_if_open(pipe_fd[1]);
 			break ;
+		}
 		i++;
 		close_if_open(in_fd);
 		close_if_open(pipe_fd[1]);
 		in_fd = pipe_fd[0];
 		cmd = cmd->next;
 	}
-	close_if_open(in_fd);
-	return (i);
+	return (close_if_open(in_fd), i);
 }
 
 static void	wait_pipeline(t_shell *shell, pid_t *pids, int n)

@@ -7,7 +7,7 @@ static void	init_shlvl(t_shell *shell)
 	int		lvl;
 
 	lvl = 1;
-	val = get_env_value(shell->env, "SHLVL");
+	val = env_get(shell->env, "SHLVL");
 	if (val)
 		lvl = ft_atoi(val) + 1;
 	if (lvl < 1)
@@ -15,7 +15,7 @@ static void	init_shlvl(t_shell *shell)
 	nb = ft_itoa(lvl);
 	if (!nb)
 		return ;
-	env_set_kv(shell, "SHLVL", nb);
+	env_put(&shell->env, "SHLVL", nb, 1);
 	free (nb);
 }
 
@@ -23,7 +23,7 @@ void	init_shell_env(t_shell *shell)
 {
 	char	cwd[PATH_MAX];
 
-	if (!get_env_value(shell->env, "PWD") && getcwd(cwd, PATH_MAX))
-		env_set_kv(shell, "PWD", cwd);
+	if (!env_get(shell->env, "PWD") && getcwd(cwd, PATH_MAX))
+		env_put(&shell->env, "PWD", cwd, 1);
 	init_shlvl(shell);
 }

@@ -7,7 +7,7 @@ int	put_check(char *s, int fd)
 	if (!s || !s[0])
 		return (0);
 	len = ft_strlen(s);
-	if (write(fd, s, len) != (ssize_t)len);
+	if (write(fd, s, len) != (ssize_t)len)
 		return (1);
 	return (0);
 }

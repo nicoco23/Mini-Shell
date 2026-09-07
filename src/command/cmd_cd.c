@@ -14,9 +14,9 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 	char	cwd[PATH_MAX];
 
 	if (oldpwd)
-		env_set_kv(shell, "OLDPWD", oldpwd);
+		env_put(&shell->env, "OLDPWD", oldpwd, 1);
 	if (getcwd(cwd, PATH_MAX))
-		env_set_kv(shell, "PWD", cwd);
+		env_put(&shell->env, "PWD", cwd, 1);
 	else
 		cwd_error("cd");
 }
@@ -27,7 +27,7 @@ static char	*cd_target(t_shell *shell, char **args)
 
 	if (args[1])
 		return (args[1]);
-	home = get_env_value(shell->env, "HOME");
+	home = env_get(shell->env, "HOME");
 	if (!home || !home[0])
 		return (ft_putstr_fd("mouliswag: cd: HOME not set\n", 2), NULL);
 	return (home);
@@ -48,7 +48,7 @@ int	cmd_cd(t_shell *shell, t_cmd *cmd)
 		return (1);
 	old = getcwd(buf, PATH_MAX);
 	if (!old)
-		old = get_env_value(shell->env, "PWD");
+		old = env_get(shell->env, "PWD");
 	if (chdir(path) != 0)
 	{
 		ft_putstr_fd("mouliswag: cd: ", 2);

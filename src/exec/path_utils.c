@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:11:43 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 15:33:03 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 20:54:51 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ char	*split_path(char *to_split, char *command)
 	return (free_tab(split), NULL);
 }
 
-char	*get_path(char **envp, char *command)
+char	*get_path(t_env *env, char *command)
 {
 	char	*path;
 
-	path = get_env_value(envp, "PATH");
+	path = env_get(env, "PATH");
 	if (!path)
 		return (split_path(DEFAULT_PATH, command));
 	if (!path[0])
@@ -44,7 +44,7 @@ char	*get_path(char **envp, char *command)
 	return (split_path(path, command));
 }
 
-void	set_path(char *arg, char **envp, t_cmd *cmds)
+void	set_path(char *arg, t_env *env, t_cmd *cmds)
 {
 	char	*str;
 	char	*find_path;
@@ -60,7 +60,7 @@ void	set_path(char *arg, char **envp, t_cmd *cmds)
 	else
 	{
 		str = ft_strjoin("/", cmds->args[0]);
-		find_path = get_path(envp, str);
+		find_path = get_path(env, str);
 		if (find_path != NULL)
 			cmds->path = find_path;
 		free(str);

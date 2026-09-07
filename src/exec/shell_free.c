@@ -7,7 +7,7 @@ void	shell_free(t_shell *shell)
 		free_cmds(shell->cmds);
 	shell->cmds = NULL;
 	if (shell->env)
-		free_tab(shell->env);
+		env_clear(&shell->env);
 	shell->env = NULL;
 	free(shell->line);
 	shell->line = NULL;
