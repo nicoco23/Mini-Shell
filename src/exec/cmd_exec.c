@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 10:43:12 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 15:37:40 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ static void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
 	{
 		ret = run_builtin(shell, cmd);
-		(free_cmds(cmd), exit(ret));
+		clean_exit(shell, ret);
 	}
 	if (apply_redirs(cmd))
-		(free_cmds(cmd), exit(1));
+		clean_exit(shell, 1);
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
-		(print_error(cmd->args[0], 0), free_cmds(cmd), exit(127));
+		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
 	execve(cmd->path, cmd->args, shell->env);
 	print_error(cmd->args[0], 1);
-	(free_cmds(cmd), exit(126));
+	clean_exit(shell, 126);
 }
+
 
 static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 {
@@ -109,6 +110,7 @@ void	exec(t_shell *shell)
 	pids = malloc(sizeof(pid_t) * lst_size);
 	if (!pids)
 		return ;
+	shell->pids = pids;
 	setup_signal_wait();
 	n = fork_pipeline(shell, pids);
 	if (n > 0)
@@ -118,4 +120,5 @@ void	exec(t_shell *shell)
 	setup_signal_prompt();
 	g_signal = 0;
 	free(pids);
+	shell->pids = NULL;
 }

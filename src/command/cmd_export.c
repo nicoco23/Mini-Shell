@@ -9,7 +9,7 @@ int	is_valid_id(const char *s)
 	i = 1;
 	while (s[i] && s[i] != '=')
 	{
-		if (!ft_isalnum(s[i]) && s[i] != '=')
+		if (!ft_isalnum(s[i]) && s[i] != '_')
 			return (0);
 		i++;
 	}
@@ -59,6 +59,8 @@ static int	export_one(t_shell *shell, char *arg)
 		return (1);
 	}
 	if (ft_strchr(arg, '='))
+		return (env_set(shell, arg));
+	if (env_index(shell->env, arg) < 0)
 		return (env_set(shell, arg));
 	return (0);
 }

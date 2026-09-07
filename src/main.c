@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/08/26 00:17:25 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 15:38:38 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int	main(int ac, char **av, char **envp)
 		return (ft_putstr_fd(
 				"mouliswag: fatal: environment allocation failed\n", 2), 1);
 	shell.cmds = NULL;
+	shell.line = NULL;
+	shell.pids = NULL;
 	shell.last_exit = 0;
+	init_shell_env(&shell);
 	while (1)
 		parsing(&shell);
 	return (0);

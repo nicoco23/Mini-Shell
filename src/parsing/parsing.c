@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/03 13:07:40 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:38:11 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ static char	*read_prompt_line(void)
 
 int	parsing(t_shell *shell)
 {
-	char	*line;
-
 	setup_signal_prompt();
-	line = read_prompt_line();
-	if (!line)
+	shell->line = read_prompt_line();
+	if (!shell->line)
 	{
 		ft_printf("exit\n");
-		exit(shell->last_exit);
+		clean_exit(shell, shell->last_exit);
 	}
 	if (g_signal == SIGINT)
 	{
 		shell->last_exit = 130;
 		g_signal = 0;
 	}
-	process_line(line, shell);
-	free(line);
+	process_line(shell->line, shell);
+	free(shell->line);
+	shell->line = NULL;
 	return (0);
 }
+

@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 10:44:43 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 15:56:40 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define EXIT_SYNTAX_ERROR 2
 
 # include <limits.h>
+# include <linux/limits.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -27,6 +28,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
+
+
+# define DEFAULT_PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 /* ======== LES STRUCTURES ========*/
 
@@ -124,6 +128,8 @@ typedef struct s_shell
 {
 	char	**env;
 	t_cmd	*cmds;
+	char	*line;
+	pid_t	*pids;
 	int		last_exit;
 }	t_shell;
 
@@ -133,6 +139,14 @@ typedef struct s_wctx
 	t_shell	*shell;
 	int		*quoted;
 }	t_wctx;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	int				visibility;
+	struct s_env	*next;
+}	t_env;
 
 /* ===== VARIABLE GLOBALE SIGNAUX ===== */
 
@@ -211,11 +225,12 @@ void		print_error(char *str, int i);
 
 /*cmd_check*/
 int			is_builtin(char *name);
-int			run_builtin_parent(t_shell *shell, t_cmd *cmd);
+int			run_builtin(t_shell *shell, t_cmd *cmd);
 
 /*cmd_cd*/
-int			cmd_cd(t_cmd *cmds);
-int			cmd_pwd(void);
+int			cmd_cd(t_shell *shell, t_cmd *cmd);
+int			cmd_pwd(t_shell *shell);
+
 
 /* cmd_echo.c */
 int			cmd_echo(char **args);
@@ -228,6 +243,9 @@ int			cmd_exit(t_shell *shell, char **args);
 int			env_count(char **env);
 int			env_index(char **env, const char *name);
 int			env_set(t_shell *shell, const char *entry);
+int			env_set_kv(t_shell *shell, char *name, char *value);
+void		env_remove_at(char **env, int idx);
+void		init_shell_env(t_shell *shell);
 
 /* env_sort.c */
 char		**sort_env_copy(char **env, int *n);
@@ -236,5 +254,14 @@ char		**sort_env_copy(char **env, int *n);
 int			is_valid_id(const char *s);
 int			cmd_export(t_shell *shell, char **args);
 int			cmd_unset(char **args, t_shell *shell);
+
+/* shell_free.c */
+void		shell_free(t_shell *shell);
+void		clean_exit(t_shell *shell, int code);
+
+/* write_utils.c */
+int			put_check(char *s, int fd);
+int			putendl_check(char *s, int fd);
+void		write_error(char *cmd);
 
 #endif

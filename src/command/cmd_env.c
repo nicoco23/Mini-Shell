@@ -4,15 +4,14 @@ int	cmd_env(char **env)
 {
 	int	i;
 
+	if (!env)
+		return (1);
 	i = 0;
-	if (env != NULL)
+	while (env[i])
 	{
-		while (env[i] != NULL)
-		{
-			ft_putstr_fd(env[i++], 1);
-			ft_putstr_fd("\n", 1);
-		}
-		return (0);
+		if (ft_strchr(env[i], '=') && putendl_check(env[i], 1))
+			return (write_error("env"), 1);
+		i++;
 	}
-	return (1);
+	return (0);
 }
