@@ -185,6 +185,5 @@ $$ -> senser return le pid du terminal
 $! -> a faire?? a pas faire ??
 mimishell dans minishell dans une commande (cat puis ls) fait apparaitre ce qui ressemble a une adresse, a check (./minishell | ./minishell | cat puis ls)
 
-completer cd (retour home quand vide)
 completer export (vide plus avec argument valide)
 completer unset (vide plus avec argument valide)

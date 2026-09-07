@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/04 19:24:53 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/07 16:45:50 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,19 @@ typedef struct s_cmd
 ** last_exit : code de retour de la dernière commande exécutée.
 **             C'est ce que $? doit expanser.
 */
-typedef struct s_shell
+
+typedef struct s_env
 {
-	char	**env;
+	char	*name;
+	char	*value;
+	int		visibility;
+	t_env	next;
+}	t_env;
+
+typedef struct s_shell
+{	
+	t_env	env;
+	void	*env_start;
 	t_cmd	*cmds;
 	int		last_exit;
 }	t_shell;
