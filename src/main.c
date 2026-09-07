@@ -35,13 +35,11 @@ typedef struct s_env
 
 typedef struct s_shell
 {	
-	t_env	env;
+	t_env	*env;
 	void	*env_start;
 	// t_cmd	*cmds;
 	int		last_exit;
 }	t_shell;
-
-
 
 // volatile sig_atomic_t	g_signal = 0;
 
@@ -60,49 +58,61 @@ static void	free_env(t_env *env, void *start)
 	}
 }
 
-
-static void get_value_value(t_env *env, char *line)
+static int get_env_value(t_env *env, char *line)
 {
 	int i;
 	int j;
 
 	i = 0;
 	
+	printf("test\n");
 	if (strchr(line, '=') == 0 )
 		return (0);
 	while (line[i] != '=')
 		i++;
 	i++;
 	j = i;
-	while(line[i + j] != '\0')
+	while(line[i + j] != '\0') //moi je veux ce qui est apres mon espace je veux pas enlever je veux copier
 		j++;
+	printf("test\n");
 	env->value = malloc(sizeof(char *) * (j + 1));
-	i = 0;
-	while (line[i] != '\0' || line[i] != '=')
-	{
-		env->value[i] = line[i];
-		i++;
-	}
-	env->value[i] = '\0';
+	if (!env->value)
+		return (-1);
+	strcpy(env->value, &line[i]);
+	// env->value = *line; 
+	// printf("test\n");
+	// j = 0;
+	// printf("test\n"); //print 
+	// while (line[i] != '\0')
+	// {
+	// 	env->value[j] = line[i];
+	// 	i++;
+	// }
+	// printf("test\n"); // print pas
+	// env->value[j] = '\0';
+	return (0);
 }
 
-static void get_value_name(t_env *env, char *line)
+static int get_env_name(t_env *env, char *line)
 {
 	int i;
 
 	i = 0;
+	printf("test\n");
 	while (line[i] != '\0' || line[i] != '=')
 		i++;
 	env->name = malloc(sizeof(char *) * (i + 1));
 	if (!env->name)
-		return (1);
-	i = 0;
+		return (-1);
+	strlcpy(env->name, line, i);
+	// i = 0;
 	while (line[i] != '\0' || line[i] != '=')
-	{
-		env->name[i] = line[i];
-		i++;
-	}
-	env->name[i] = '\0';
+	// {
+	// 	env->name[i] = line[i];
+	// 	i++;
+	// }
+	// env->name[i] = '\0';
+	return (0);
 }
 
 t_env	*allocate_env(char **envp, t_shell *shell, int i)
@@ -112,8 +122,10 @@ t_env	*allocate_env(char **envp, t_shell *shell, int i)
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
-	if (get_env_value(shell->env, envp[i]) == -1 || get_env_name(env, envp[i]) == -1);
+	printf("test\n");
+	if (get_env_value(env, envp[i]) == -1 || get_env_name(env, envp[i]) == -1);
 		return (free_env(env, shell->env_start), NULL);
+	printf("test\n");
 	return (env);
 }
 
@@ -123,12 +135,15 @@ static t_env *copy_env(char **envp,t_shell *shell)
 
 	i = 0;
 	shell->env_start = NULL;
-	&shell->env = allocate_env(envp, shell, i);
+	printf("test\n");
+	shell->env = allocate_env(envp, shell, i);
+	printf("test\n");
 	shell->env_start = &shell->env;
+	printf("test\n");
 	while (envp[++i])
 	{
-		&shell->env = allocate_env(envp, shell, i);
-		env = env->next;
+		shell->env = allocate_env(envp, shell, i);
+		shell->env = shell->env->next;
 	}
 	shell->env->next = NULL;
 }
@@ -140,13 +155,13 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	copy_env(envp, &shell);
-	while (shell.env.next != NULL)
+	while (shell.env->next != NULL)
 	{
-		printf("%s, %s\n", shell.env.name, shell.env.value);
-		shell.env = *shell.env.next;
+		printf("%s, %s\n", shell.env->name, shell.env->value);
+		shell.env = shell.env->next;
 	}
 	
-	free_env(&shell.env, shell.env_start);
+	free_env(shell.env, shell.env_start);
 	// if (!shell.env)
 	// 	return (ft_putstr_fd(
 	// 			"mouliswag: fatal: environment allocation failed\n", 2), 1);
