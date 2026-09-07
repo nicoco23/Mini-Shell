@@ -65,7 +65,6 @@ static int get_env_value(t_env *env, char *line)
 
 	i = 0;
 	
-	printf("test\n");
 	if (strchr(line, '=') == 0 )
 		return (0);
 	while (line[i] != '=')
@@ -74,7 +73,6 @@ static int get_env_value(t_env *env, char *line)
 	j = i;
 	while(line[i + j] != '\0') //moi je veux ce qui est apres mon espace je veux pas enlever je veux copier
 		j++;
-	printf("test\n");
 	env->value = malloc(sizeof(char *) * (j + 1));
 	if (!env->value)
 		return (-1);
@@ -98,15 +96,14 @@ static int get_env_name(t_env *env, char *line)
 	int i;
 
 	i = 0;
-	printf("test\n");
-	while (line[i] != '\0' || line[i] != '=')
+	while (line[i] != '\0' && line[i] != '=')
 		i++;
 	env->name = malloc(sizeof(char *) * (i + 1));
 	if (!env->name)
 		return (-1);
 	strlcpy(env->name, line, i);
 	// i = 0;
-	while (line[i] != '\0' || line[i] != '=')
+	// while (line[i] != '\0' || line[i] != '=')
 	// {
 	// 	env->name[i] = line[i];
 	// 	i++;
@@ -122,30 +119,37 @@ t_env	*allocate_env(char **envp, t_shell *shell, int i)
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
-	printf("test\n");
-	if (get_env_value(env, envp[i]) == -1 || get_env_name(env, envp[i]) == -1);
+	if (get_env_value(env, envp[i]) == -1 || get_env_name(env, envp[i]) == -1)
 		return (free_env(env, shell->env_start), NULL);
-	printf("test\n");
 	return (env);
 }
 
-static t_env *copy_env(char **envp,t_shell *shell)
+static void *copy_env(char **envp,t_shell *shell)
 {
 	int		i;
+	t_env *new;
+	t_env *last;
 
 	i = 0;
+	shell->env = NULL;
 	shell->env_start = NULL;
-	printf("test\n");
-	shell->env = allocate_env(envp, shell, i);
-	printf("test\n");
-	shell->env_start = &shell->env;
-	printf("test\n");
-	while (envp[++i])
+	// shell->env = allocate_env(envp, shell, i);
+	// shell->env_start = &shell->env; 
+	printf("test\n"); 
+	while (envp[i] != NULL)
 	{
-		shell->env = allocate_env(envp, shell, i);
-		shell->env = shell->env->next;
+		new = allocate_env(envp, shell, i);
+		if (!shell->env)
+			shell->env = new;
+		else
+			last->next = new;
+		last = new;
+		i++;
 	}
-	shell->env->next = NULL;
+	shell->env_start = shell->env;
+	printf("test\n");
+	// shell->env->next = NULL;
+	printf("test\n");
 }
 
 int	main(int ac, char **av, char **envp)
