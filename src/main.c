@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/09/07 21:29:26 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 21:35:19 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	main(int ac, char **av, char **envp)
 	shell.cmds = NULL;
 	shell.line = NULL;
 	shell.pids = NULL;
+	shell.saved_in = -1;
+	shell.saved_out = -1;
 	shell.last_exit = 0;
 	init_shell_env(&shell);
 	while (1)

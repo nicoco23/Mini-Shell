@@ -3,12 +3,13 @@
 void	shell_free(t_shell *shell)
 {
 	rl_clear_history();
-	if (shell->cmds)
-		free_cmds(shell->cmds);
+	close_if_open(shell->saved_in);
+	close_if_open(shell->saved_out);
+	shell->saved_in = -1;
+	shell->saved_out = -1;
+	free_cmds(shell->cmds);
 	shell->cmds = NULL;
-	if (shell->env)
-		env_clear(&shell->env);
-	shell->env = NULL;
+	env_clear(&shell->env);
 	free(shell->line);
 	shell->line = NULL;
 	free(shell->pids);

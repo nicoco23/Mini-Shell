@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 21:27:20 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 21:35:29 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ typedef struct s_shell
 	char	*line;
 	pid_t	*pids;
 	int		last_exit;
+	int		saved_in;
+	int		saved_out;
 }	t_shell;
 
 typedef struct s_wctx
