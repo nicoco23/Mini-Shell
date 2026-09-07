@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/04 19:24:53 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/07 10:44:43 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,6 @@ void		exec(t_shell *shell);
 void		print_error(char *str, int i);
 
 /*cmd_check*/
-int			check_cmd(t_cmd *cmds, t_shell *shell);
 int			is_builtin(char *name);
 int			run_builtin_parent(t_shell *shell, t_cmd *cmd);
 
@@ -236,7 +235,6 @@ char		**sort_env_copy(char **env, int *n);
 /* cmd_export.c */
 int			is_valid_id(const char *s);
 int			cmd_export(t_shell *shell, char **args);
-
-int cmd_unset(char **args, t_shell *shell);
+int			cmd_unset(char **args, t_shell *shell);
 
 #endif

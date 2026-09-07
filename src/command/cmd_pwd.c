@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int cmd_pwd(void)
+int	cmd_pwd(void)
 {
 	char	filename[BUFFER_SIZE];
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/04 19:57:58 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/07 10:43:12 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 {
+	int	ret;
+
 	setup_signal_exec();
 	if (in_fd != -1)
 		(dup2(in_fd, STDIN_FILENO), close(in_fd));
@@ -21,10 +23,13 @@ static void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 		dup2(pipe_fd[1], STDOUT_FILENO);
 	close_if_open(pipe_fd[0]);
 	close_if_open(pipe_fd[1]);
+	if (cmd->args && cmd->args[0] && is_builtin(cmd->args[0]))
+	{
+		ret = run_builtin(shell, cmd);
+		(free_cmds(cmd), exit(ret));
+	}
 	if (apply_redirs(cmd))
 		(free_cmds(cmd), exit(1));
-	if (check_cmd(cmd, shell) == 0)
-		(free_cmds(cmd), exit(0));
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
 		(print_error(cmd->args[0], 0), free_cmds(cmd), exit(127));
@@ -97,7 +102,7 @@ void	exec(t_shell *shell)
 	if (!shell->cmds->next && shell->cmds->args && shell->cmds->args[0]
 		&& is_builtin(shell->cmds->args[0]))
 	{
-		shell->last_exit = run_builtin_parent(shell, shell->cmds);
+		shell->last_exit = run_builtin(shell, shell->cmds);
 		return ;
 	}
 	lst_size = ft_listsize_cmd(shell->cmds);

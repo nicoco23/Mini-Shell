@@ -76,14 +76,14 @@ int	lecture_path(char *fullpath, char *path)
 	return (0);
 }
 
-int go_home(void)
+int	go_home(void)
 {
 	if (chdir("/home") != 0)
 		return (1);
 	return (0);
 }
 
-int cmd_cd(t_cmd *cmds)
+int	cmd_cd(t_cmd *cmds)
 {
 	char	filepath[BUFFER_SIZE];
 
