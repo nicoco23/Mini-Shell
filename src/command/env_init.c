@@ -23,6 +23,8 @@ void	init_shell_env(t_shell *shell)
 {
 	char	cwd[PATH_MAX];
 
+	if (!env_get(shell->env, "PATH"))
+		env_put(&shell->env, "PATH", DEFAULT_PATH, 0);
 	if (!env_get(shell->env, "PWD") && getcwd(cwd, PATH_MAX))
 		env_put(&shell->env, "PWD", cwd, 1);
 	init_shlvl(shell);

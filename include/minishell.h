@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 21:35:29 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:20:14 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define EXIT_SYNTAX_ERROR 2
 
+# include <sys/stat.h>
 # include <limits.h>
 # include <linux/limits.h>
 # include <unistd.h>
@@ -29,8 +30,8 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
-
-# define DEFAULT_PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define DEFAULT_PATH "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# define PROMPT "\001\033[1;35m\002MouliSwag\001\033[0m\002 🦁 "
 
 /* ======== LES STRUCTURES ========*/
 
@@ -172,7 +173,7 @@ int			append_char(char **word, char c);
 int			read_quoted(char *line, int *i, char quote, t_wctx *ctx);
 
 /* lexer.c */
-t_token		*lexer(char *line, t_shell *shell);
+t_token		*lexer(char *line, t_shell *shell, int *err);
 
 /* expand.c */
 int			expand_dollar(char *line, int *i, t_wctx *ctx);
@@ -190,10 +191,6 @@ int			check_syntax(t_token *tokens);
 void		free_tokens(t_token *tokens);
 void		free_cmds(t_cmd *cmds);
 
-/* debug_cmds.c */
-void		debug_print_cmds(t_cmd *cmds);
-void		debug_print_env(char **env);
-
 /* signal.c */
 void		setup_signal_prompt(void);
 void		setup_signal_exec(void);
@@ -206,7 +203,7 @@ void		setup_signal_heredoc(void);
 void		setup_signal_wait(void);
 
 /* heredoc.c */
-int			read_heredocs(t_cmd *cmds);
+int			read_heredocs(t_shell *shell);
 
 /* exec_utils.c*/
 int			ft_listsize_cmd(t_cmd *lst);
@@ -233,7 +230,7 @@ int			run_builtin(t_shell *shell, t_cmd *cmd);
 
 /*cmd_cd*/
 int			cmd_cd(t_shell *shell, t_cmd *cmd);
-int			cmd_pwd(t_shell *shell);
+int			cmd_pwd(void);
 
 
 /* cmd_echo.c */
@@ -282,5 +279,6 @@ void		clean_exit(t_shell *shell, int code);
 int			put_check(char *s, int fd);
 int			putendl_check(char *s, int fd);
 void		write_error(char *cmd);
+void		cwd_error(char *who);
 
 #endif

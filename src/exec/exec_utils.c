@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:20:27 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/26 10:18:37 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:18:31 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	apply_redirs(t_cmd *cmd)
 		else if (r->type == TOKEN_REDIR_HEREDOC)
 			fd = r->fd_pipe[0];
 		if (fd == -1)
-			return (perror(r->target), 1);
+			return (print_error(r->target, 1), 1);
 		if (r->type == TOKEN_REDIR_IN || r->type == TOKEN_REDIR_HEREDOC)
 			(dup2(fd, STDIN_FILENO), close(fd));
 		else

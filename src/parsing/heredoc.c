@@ -1,61 +1,90 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 16:33:10 by ntassin          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-static int	heredoc_loop(int fd, char *delim)
+static char	*expand_heredoc_line(char *line, t_shell *shell)
+{
+	char	*out;
+	t_wctx	ctx;
+	int		quoted;
+	int		i;
+
+	out = ft_strdup("");
+	if (!out)
+		return (NULL);
+	quoted = 0;
+	ctx.word = &out;
+	ctx.shell = shell;
+	ctx.quoted = &quoted;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			if (!expand_dollar(line, &i, &ctx))
+				return (free(out), NULL);
+		}
+		else if (!append_char(&out, line[i++]))
+			return (NULL);
+	}
+	return (out);
+}
+
+static int	write_heredoc_line(t_shell *shell, t_redir *rd, int fd, char *line)
+{
+	char	*expanded;
+
+	if (rd->quoted)
+		return (ft_putendl_fd(line, fd), 0);
+	expanded = expand_heredoc_line(line, shell);
+	if (!expanded)
+		return (1);
+	ft_putendl_fd(expanded, fd);
+	return (free(expanded), 0);
+}
+
+static int	heredoc_loop(t_shell *shell, t_redir *rd, int fd)
 {
 	char	*line;
-	int		savec_stdin;
+	int		saved;
 
-	savec_stdin = dup(STDIN_FILENO);
+	saved = dup(STDIN_FILENO);
 	line = readline("> ");
 	while (line && g_signal != SIGINT)
 	{
-		if (ft_strlen(line) == ft_strlen(delim)
-			&& !ft_strncmp(line, delim, ft_strlen(delim)))
-		{
-			free(line);
-			return (close(savec_stdin), 0);
-		}
-		ft_putendl_fd(line, fd);
+		if (ft_strlen(line) == ft_strlen(rd->target)
+			&& !ft_strncmp(line, rd->target, ft_strlen(rd->target)))
+			return (free(line), close(saved), 0);
+		if (write_heredoc_line(shell, rd, fd, line))
+			return (free(line), close(saved), -1);
 		free(line);
 		line = readline("> ");
 	}
 	free(line);
 	if (g_signal == SIGINT)
-		dup2(savec_stdin, STDIN_FILENO);
-	return (close(savec_stdin), -1);
+		dup2(saved, STDIN_FILENO);
+	return (close(saved), -1);
 }
 
-static int	read_one_heredoc(t_redir *redir)
+static int	read_one_heredoc(t_shell *shell, t_redir *redir)
 {
 	int	pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	if (heredoc_loop(pipe_fd[1], redir->target) == -1)
+	if (heredoc_loop(shell, redir, pipe_fd[1]) == -1)
 		return (close(pipe_fd[0]), close(pipe_fd[1]), -1);
 	close(pipe_fd[1]);
 	redir->fd_pipe[0] = pipe_fd[0];
 	return (0);
 }
 
-int	read_heredocs(t_cmd *cmds)
+int	read_heredocs(t_shell *shell)
 {
+	t_cmd	*cmds;
 	t_redir	*redir;
 	int		interrupted;
 
 	interrupted = 0;
+	cmds = shell->cmds;
 	setup_signal_heredoc();
 	while (cmds && !interrupted)
 	{
@@ -63,7 +92,7 @@ int	read_heredocs(t_cmd *cmds)
 		while (redir && !interrupted)
 		{
 			if (redir->type == TOKEN_REDIR_HEREDOC
-				&& read_one_heredoc(redir) == -1)
+				&& read_one_heredoc(shell, redir) == -1)
 				interrupted = 1;
 			redir = redir->next;
 		}

@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+static int	echo_args(char **args, int i)
+{
+	while (args[i])
+	{
+		if (put_check(args[i], 1))
+			return (1);
+		if (args[i + 1] && put_check(" ", 1))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static int	is_flag_n(char *str)
 {
 	int	i;
@@ -30,14 +43,10 @@ int	cmd_echo(char **args)
 		newline = 0;
 		i++;
 	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], 1);
-		if (args[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
-	}
-	if (newline)
-		ft_putstr_fd("\n", 1);
+	if (echo_args(args, i))
+		return (write_error("echo"), 1);
+	if (newline && put_check("\n", 1))
+		return (write_error("echo"), 1);
 	return (0);
 }
+

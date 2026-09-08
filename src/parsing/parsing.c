@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 15:38:11 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:12:34 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	build_and_run(t_shell *shell, t_token *token)
 	free_tokens(token);
 	if (!shell->cmds)
 		return (0);
-	if (read_heredocs(shell->cmds))
+	if (read_heredocs(shell))
 	{
 		shell->last_exit = 130;
 		free_cmds(shell->cmds);
@@ -39,13 +39,14 @@ static int	build_and_run(t_shell *shell, t_token *token)
 static int	process_line(char *line, t_shell *shell)
 {
 	t_token	*tokens;
+	int		err;
 
 	if (!line || is_blank(line))
 		return (0);
 	add_history(line);
-	tokens = lexer(line, shell);
+	tokens = lexer(line, shell, &err);
 	if (!tokens)
-		return (shell->last_exit = EXIT_SYNTAX_ERROR, 0);
+		return (shell->last_exit = err * EXIT_SYNTAX_ERROR, 0);
 	if (!check_syntax(tokens))
 	{
 		shell->last_exit = EXIT_SYNTAX_ERROR;
@@ -59,8 +60,11 @@ static char	*read_prompt_line(void)
 	char	*line;
 	int		len;
 
-	if (isatty(STDIN_FILENO))
-		return (readline("\033[1;35mMouliSwag\033[0m 🦁​"));
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	{
+		rl_outstream = stderr;
+		return (readline(PROMPT));
+	}
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (NULL);

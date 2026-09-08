@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 20:56:56 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:13:56 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,35 @@ static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 	return (pid);
 }
 
+static int	spawn_stage(t_shell *shell, t_cmd *cmd, int *in_fd, pid_t *slot)
+{
+	int	pipe_fd[2];
+
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+	if (cmd->next && pipe(pipe_fd) == -1)
+		return (0);
+	*slot = fork_stage(cmd, shell, *in_fd, pipe_fd);
+	if (*slot == -1)
+		return (close_if_open(pipe_fd[0]), close_if_open(pipe_fd[1]), 0);
+	close_if_open(*in_fd);
+	close_if_open(pipe_fd[1]);
+	*in_fd = pipe_fd[0];
+	return (1);
+}
+
 static int	fork_pipeline(t_shell *shell, pid_t *pids)
 {
 	t_cmd	*cmd;
 	int		in_fd;
-	int		pipe_fd[2];
 	int		i;
 
 	cmd = shell->cmds;
 	in_fd = -1;
 	i = 0;
-	while (cmd)
+	while (cmd && spawn_stage(shell, cmd, &in_fd, &pids[i]))
 	{
-		pipe_fd[0] = -1;
-		pipe_fd[1] = -1;
-		if (cmd->next && pipe(pipe_fd) == -1)
-			break ;
-		pids[i] = fork_stage(cmd, shell, in_fd, pipe_fd);
-		if (pids[i] == -1)
-		{
-			close_if_open(pipe_fd[0]);
-			close_if_open(pipe_fd[1]);
-			break ;
-		}
 		i++;
-		close_if_open(in_fd);
-		close_if_open(pipe_fd[1]);
-		in_fd = pipe_fd[0];
 		cmd = cmd->next;
 	}
 	return (close_if_open(in_fd), i);
@@ -76,8 +78,8 @@ void	exec(t_shell *shell)
 	int		lst_size;
 	int		n;
 
-	if (!shell->cmds->next && shell->cmds->args && shell->cmds->args[0]
-		&& is_builtin(shell->cmds->args[0]))
+	if (!shell->cmds->next && (!shell->cmds->args || !shell->cmds->args[0]
+			|| is_builtin(shell->cmds->args[0])))
 	{
 		shell->last_exit = run_builtin(shell, shell->cmds);
 		return ;

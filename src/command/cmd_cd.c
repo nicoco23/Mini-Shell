@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	cwd_error(char *who)
+void	cwd_error(char *who)
 {
 	ft_putstr_fd("mouliswag: ", 2);
 	ft_putstr_fd(who, 2);

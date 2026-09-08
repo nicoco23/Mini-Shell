@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/07 21:09:19 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/08 12:03:16 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRC =	src/main.c					\
 		src/parsing/cmd_redir.c		\
 		src/parsing/syntax_check.c	\
 		src/parsing/parsing_free.c	\
-		src/parsing/debug_cmds.c	\
 		src/parsing/heredoc.c		\
 		src/signal/signal.c			\
 		src/signal/signal_heredoc.c	\
@@ -61,6 +60,8 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 
 .PHONY: all
 all: $(NAME)
+
+-include $(DEPS)
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(LINK) $(OBJ) $(LIBFT_LIB) $(LDLIBS) -o $(NAME)

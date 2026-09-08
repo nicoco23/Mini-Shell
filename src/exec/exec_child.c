@@ -1,12 +1,37 @@
 #include "minishell.h"
 
+static void	exit_no_path(t_cmd *cmd, t_shell *shell)
+{
+	if (ft_strchr(cmd->args[0], '/'))
+	{
+		errno = ENOENT;
+		print_error(cmd->args[0], 1);
+		clean_exit(shell, 127);
+	}
+	print_error(cmd->args[0], 0);
+	clean_exit(shell, 127);
+}
+
+static void	check_not_dir(t_cmd *cmd, t_shell *shell)
+{
+	struct stat	st;
+
+	if (stat(cmd->path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		errno = EISDIR;
+		print_error(cmd->args[0], 1);
+		clean_exit(shell, 126);
+	}
+}
+
 static void	run_external(t_cmd *cmd, t_shell *shell)
 {
 	char	**envp;
 
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
-		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
+		exit_no_path(cmd, shell);
+	check_not_dir(cmd, shell);
 	envp = env_to_array(shell->env);
 	if (!envp)
 		clean_exit(shell, 1);
@@ -34,5 +59,7 @@ void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 	}
 	if (apply_redirs(cmd))
 		clean_exit(shell, 1);
+	if (!cmd->args || !cmd->args[0])
+		clean_exit(shell, 0);
 	run_external(cmd, shell);
 }
