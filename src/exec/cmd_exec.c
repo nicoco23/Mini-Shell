@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 20:56:56 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:13:11 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,23 @@ void	exec(t_shell *shell)
 		shell->last_exit = run_builtin(shell, shell->cmds);
 		return ;
 	}
+	setup_signal_exec();
 	lst_size = ft_listsize_cmd(shell->cmds);
 	pids = malloc(sizeof(pid_t) * lst_size);
 	if (!pids)
 		return ;
 	shell->pids = pids;
-	setup_signal_wait();
+	// setup_signal_wait();
 	n = fork_pipeline(shell, pids);
 	if (n > 0)
+	{
+		setup_signal_exec2();
 		wait_pipeline(shell, pids, n);
+	}
 	if (n < lst_size)
 		perror("mouliswag: fork");
-	setup_signal_prompt();
 	g_signal = 0;
 	free(pids);
 	shell->pids = NULL;
+	setup_signal_prompt();
 }

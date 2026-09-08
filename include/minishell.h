@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 21:35:29 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:11:44 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void		debug_print_env(char **env);
 /* signal.c */
 void		setup_signal_prompt(void);
 void		setup_signal_exec(void);
+void		setup_signal_exec2(void);
 void		update_exit_status(t_shell *shell, int status);
 
 /* signal_heredoc.c*/
