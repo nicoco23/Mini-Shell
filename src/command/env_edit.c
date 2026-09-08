@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:50:47 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 13:50:48 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:41:23 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	env_put(t_env **lst, char *name, char *value, int visibility)
 	return (env_add_back(lst, node), 0);
 }
 
-/* entry = "NAME=VALUE" ou "NAME" */
 int	env_put_entry(t_env **lst, char *entry, int visibility)
 {
 	char	*eq;

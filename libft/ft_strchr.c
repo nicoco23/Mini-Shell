@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 18:22:45 by ltournie          #+#    #+#             */
-/*   Updated: 2025/11/27 17:19:09 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:39:08 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,3 @@ char	*ft_strchr(const char *s, int c)
 	}
 	return (NULL);
 }
-
-// int main(int ac, char **av)
-// {
-// 	char *res;
-// 	res = ft_strchr(0x56113beac020: "teste", 1024: '\0');
-// }

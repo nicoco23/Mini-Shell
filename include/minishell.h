@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 14:00:53 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:42:41 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,10 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
-/* ======== LES STRUCTURES ========*/
+/* ======== LES STRUCTURES ======== */
 
-// TYPES DE TOKENS
-/*
-** Enumeration de tous les types de tokens que le lexer peut generer
-** Un token est considere comme l'unite minimale d'une ligne de commade.
-*/
+/* ==== TYPES DE TOKENS ==== */
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,
@@ -49,10 +46,8 @@ typedef enum e_token_type
 	TOKEN_PIPE_MID, // sortie de pipe
 }	t_token_type;
 
-// TOKEN
-/*
-** Unite minimale produite par le lexer
-*/
+/* ==== TOKEN ==== */ 
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -60,19 +55,9 @@ typedef struct s_token
 	int				quoted;
 	struct s_token	*next;
 }	t_token;
+
 /* ===== REDIRECTION ===== */
 
-/*
-** Une redirection associée à une commande.
-** Une commande peut avoir plusieurs redirections (liste chaînée).
-**
-** type   : le type de redirection (<, >, >>, <<)
-** target : nom du fichier cible, ou délimiteur pour le heredoc
-** quoted : 1 si le delimiteur du heredoc etait quote (desactive $ dans le corps)
-** fd	  : descripteur ouvert par l'executor pour cette redirection
-**			(-1 tant qu'elle n'a pas ete ouverte), utilise pour le dup2
-** next   : redirection suivante sur la même commande
-*/
 typedef struct s_redir
 {
 	t_token_type	type;
@@ -83,20 +68,8 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-/* ===== COMMANDE ===== */
+/* ==== COMMANDE ==== */
 
-/*
-** Unité d'exécution : représente une commande simple dans un pipeline.
-** Ex: dans "ls -la | grep foo", il y a deux t_cmd.
-**
-** args   : tableau de chaînes terminé par NULL.
-**          args[0] = nom de la commande, args[1..n] = arguments.
-**          Ce format est directement compatible avec execve().
-** redirs : liste des redirections attachées à cette commande
-** path	  : chemin resolu de l'executable (rempli par l'executor apres
-			recherche dans PATH), NULL tant que non resolu
-** next   : commande suivante dans le pipeline (NULL si dernière)
-*/
 typedef struct s_cmd
 {
 	char			**args;
@@ -106,7 +79,7 @@ typedef struct s_cmd
 	int				*exit_status;
 }	t_cmd;
 
-/* ===== ÉTAT GLOBAL DU SHELL ===== */
+/* ==== ENV ==== */
 
 typedef struct s_env
 {
@@ -116,19 +89,8 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-/*
-** Structure centrale passée à toutes les fonctions du shell.
-** Elle regroupe tout ce dont le parser et l'executor ont besoin.
-**
-** env       : copie interne de envp faite au démarrage.
-**             On ne touche JAMAIS à envp directement après l'init.
-**             export/unset/cd modifient cette copie.
-** cmds      : liste des commandes du pipeline courant,
-**             produite par le parser et consommée par l'executor.
-**             Libérée après chaque exécution.
-** last_exit : code de retour de la dernière commande exécutée.
-**             C'est ce que $? doit expanser.
-*/
+/* ==== SHELL ==== */
+
 typedef struct s_shell
 {
 	t_env	*env;
@@ -147,16 +109,11 @@ typedef struct s_wctx
 	int		*quoted;
 }	t_wctx;
 
-/* ===== VARIABLE GLOBALE SIGNAUX ===== */
+/* ======= SIGNAUX ======= */
 
-/*
-** La seule variable globale autorisée par le sujet.
-** Le handler de signal y écrit le numéro du signal reçu (SIGINT, SIGQUIT...).
-** La boucle main la lit pour réagir (réafficher le prompt, mettre à jour $?).
-** volatile : force le compilateur à toujours relire la valeur en mémoire.
-** sig_atomic_t : garantit que l'écriture est atomique (pas de corruption).
-*/
 extern volatile sig_atomic_t	g_signal;
+
+/* ======= FONCTION ======= */
 
 /* parsing.c */
 int			parsing(t_shell *shell);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/07 21:09:19 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/08 16:42:08 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,21 +31,21 @@ SRC =	src/main.c					\
 		src/exec/exec_utils.c		\
 		src/exec/cmd_exec.c			\
 		src/exec/cmd_check.c		\
+		src/exec/exec_child.c		\
+		src/exec/shell_free.c		\
+		src/exec/write_utils.c		\
 		src/command/cmd_pwd.c		\
 		src/command/cmd_cd.c		\
 		src/command/cmd_echo.c		\
 		src/command/cmd_env.c		\
 		src/command/cmd_exit.c		\
 		src/command/cmd_export.c	\
-		src/command/env_sort.c		\
 		src/command/cmd_unset.c		\
-		src/command/env_list.c		\
-		src/command/env_edit.c		\
-		src/command/env_init.c		\
-		src/exec/shell_free.c		\
-		src/exec/write_utils.c		\
-		src/command/env_convert.c	\
-		src/exec/exec_child.c		\
+		src/env/env_list.c		\
+		src/env/env_edit.c		\
+		src/env/env_init.c		\
+		src/env/env_convert.c	\
+		src/env/env_sort.c		\
 
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
@@ -62,7 +62,7 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ) include/minishell.h
 	$(LINK) $(OBJ) $(LIBFT_LIB) $(LDLIBS) -o $(NAME)
 
 .PHONY: libft
@@ -74,6 +74,7 @@ obj/%.o: src/%.c
 	@if [ ! -d obj/exec ]; then mkdir obj/exec; fi
 	@if [ ! -d obj/parsing ]; then mkdir obj/parsing; fi
 	@if [ ! -d obj/command ]; then mkdir obj/command; fi
+	@if [ ! -d obj/env ]; then mkdir obj/env; fi
 	@if [ ! -d obj/signal ]; then mkdir obj/signal; fi
 	$(LINK) $(HEADER) -MMD -MP -c $< -o $@
 
