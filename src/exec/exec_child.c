@@ -3,28 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:52:25 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 16:15:38 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 19:45:15 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	check_is_dir(t_shell *shell, char *path, char *name)
+{
+	struct stat	st;
+
+	if (stat(path, &st) == 0 && S_ISDIR(st.st_mode))
+	{
+		ft_putstr_fd("mouliswag: ", 2);
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		clean_exit(shell, 126);
+	}
+}
+
 static void	run_external(t_cmd *cmd, t_shell *shell)
 {
 	char	**envp;
+	int		err;
 
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
 		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
+	check_is_dir(shell, cmd->path, cmd->args[0]);
 	envp = env_to_array(shell->env);
 	if (!envp)
 		clean_exit(shell, 1);
 	execve(cmd->path, cmd->args, envp);
+	err = errno;
 	free_tab(envp);
+	errno = err;
 	print_error(cmd->args[0], 1);
+	if (err == ENOENT)
+		clean_exit(shell, 127);
 	clean_exit(shell, 126);
 }
 
