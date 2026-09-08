@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 15:28:07 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 17:44:19 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ static int	heredoc_loop(int fd, char *delim)
 	free(line);
 	if (g_signal == SIGINT)
 	{
+		// dprintf(2, "coucou\n");
 		dup2(savec_stdin, STDIN_FILENO);
 		close(savec_stdin);
 		return (-1);
 	}
+
 	ft_putstr_fd("mouliswag: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(delim, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
@@ -49,13 +51,16 @@ static int	heredoc_loop(int fd, char *delim)
 static int	read_one_heredoc(t_redir *redir)
 {
 	int	pipe_fd[2];
+	int	ret;
 
 	setup_signal_heredoc();
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	if (heredoc_loop(pipe_fd[1], redir->target) == -1)
-		return (close(pipe_fd[0]), close(pipe_fd[1]), -1);
+	ret = heredoc_loop(pipe_fd[1], redir->target);
+	// dprintf(2, "%d\n", ret);
 	close(pipe_fd[1]);
+	if (ret == -1)
+		return (close(pipe_fd[0]), -1);
 	redir->fd_pipe[0] = pipe_fd[0];
 	return (0);
 }

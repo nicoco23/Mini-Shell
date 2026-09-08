@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:33:31 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 16:17:21 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 17:50:11 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	// ft_putstr_fd("\n", STDOUT_FILENO);
 	close(STDIN_FILENO);
 }
 

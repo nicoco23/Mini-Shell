@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 15:38:07 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 17:45:39 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static char	*read_prompt_line(t_shell *shell)
 	char	*line;
 	int		len;
 
+	(void) shell;
 	if (isatty(STDIN_FILENO))
 	{
 		if (shell->last_exit != 130)
