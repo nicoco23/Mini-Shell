@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 19:28:21 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 21:38:39 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,26 @@ static int	process_line(char *line, t_shell *shell)
 
 static char	*read_prompt_line(t_shell *shell)
 {
-	(void) shell;
-	if (isatty(STDIN_FILENO))
-	{
-		if (g_signal == SIGINT)
-		{
-			write(1, "\n", 1);
-			g_signal = 0;
-		}
-		return (readline("MouliSwag $ "));
-	}
-	return (NULL);
+    char	*line;
+    size_t	len;
+
+    (void)shell;
+    if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+    {
+        if (g_signal == SIGINT)
+        {
+            write(1, "\n", 1);
+            g_signal = 0;
+        }
+        return (readline("MouliSwag $ "));
+    }
+    line = get_next_line(STDIN_FILENO);
+    if (!line)
+        return (NULL);
+    len = ft_strlen(line);
+    if (len > 0 && line[len - 1] == '\n')
+        line[len - 1] = '\0';
+    return (line);
 }
 
 int	parsing(t_shell *shell)
@@ -80,7 +89,8 @@ int	parsing(t_shell *shell)
 	}
 	if (!shell->line)
 	{
-		ft_printf("exit\n");
+		if (isatty(STDIN_FILENO))
+			ft_printf("exit\n");
 		clean_exit(shell, shell->last_exit);
 	}
 	process_line(shell->line, shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/09/07 21:35:19 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 21:18:33 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 
-	(void)ac;
 	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr_fd("Too many arguments.\n", 2);
+		return (1);
+	}
 	if (env_from_envp(envp, &shell.env))
 		return (ft_putstr_fd(
 				"mouliswag: fatal: environment allocation failed\n", 2), 1);

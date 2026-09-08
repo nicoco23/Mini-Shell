@@ -6,7 +6,7 @@
 #    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/08 16:42:08 by ltournie         ###   ########.fr        #
+#    Updated: 2026/09/08 21:18:10 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,3 +91,6 @@ fclean: clean
 
 .PHONY: re
 re: fclean $(NAME)
+
+run: $(NAME)
+	valgrind --track-fds=yes --trace-children=yes --suppressions=ignore_readline --leak-check=full --show-leak-kinds=all ./minishell

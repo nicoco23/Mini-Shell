@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 16:12:10 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 21:51:08 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,46 @@ static void	wait_pipeline(t_shell *shell, pid_t *pids, int n)
 		g_signal = SIGINT;
 }
 
+// static int	run_builtin_protected(t_shell *shell)
+// {
+// 	int	stdin_fd;
+// 	int	stdout_fd;
+// 	int last_exit;
+
+// 	stdin_fd = dup(STDIN_FILENO);
+// 	stdout_fd = dup(STDOUT_FILENO);
+// 	last_exit = run_builtin(shell, shell->cmds);
+// 	dup2(stdin_fd, STDIN_FILENO);
+// 	dup2(stdout_fd, STDOUT_FILENO);
+// 	close(stdin_fd);
+// 	close(stdout_fd);
+// 	return (last_exit);
+// }
+
 static int	run_builtin_protected(t_shell *shell)
 {
-	int	stdin_fd;
-	int	stdout_fd;
-	int last_exit;
+    int	last_exit;
 
-	stdin_fd = dup(STDIN_FILENO);
-	stdout_fd = dup(STDOUT_FILENO);
-	last_exit = run_builtin(shell, shell->cmds);
-	dup2(stdin_fd, STDIN_FILENO);
-	dup2(stdout_fd, STDOUT_FILENO);
-	close(stdin_fd);
-	close(stdout_fd);
-	return (last_exit);
+    shell->saved_in = dup(STDIN_FILENO);
+    shell->saved_out = dup(STDOUT_FILENO);
+    if (shell->saved_in == -1 || shell->saved_out == -1)
+    {
+        close_if_open(shell->saved_in);
+        close_if_open(shell->saved_out);
+        shell->saved_in = -1;
+        shell->saved_out = -1;
+        return (1);
+    }
+    last_exit = run_builtin(shell, shell->cmds);
+    if (dup2(shell->saved_in, STDIN_FILENO) == -1)
+        last_exit = 1;
+    if (dup2(shell->saved_out, STDOUT_FILENO) == -1)
+        last_exit = 1;
+    close(shell->saved_in);
+    close(shell->saved_out);
+    shell->saved_in = -1;
+    shell->saved_out = -1;
+    return (last_exit);
 }
 
 void	exec(t_shell *shell)
