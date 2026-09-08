@@ -25,7 +25,8 @@ static int	heredoc_loop(int fd, char *delim)
 			&& !ft_strncmp(line, delim, ft_strlen(delim)))
 		{
 			free(line);
-			return (close(savec_stdin), 0);
+			close(savec_stdin);
+			return (0);
 		}
 		ft_putendl_fd(line, fd);
 		free(line);
@@ -33,8 +34,16 @@ static int	heredoc_loop(int fd, char *delim)
 	}
 	free(line);
 	if (g_signal == SIGINT)
+	{
 		dup2(savec_stdin, STDIN_FILENO);
-	return (close(savec_stdin), -1);
+		close(savec_stdin);
+		return (-1);
+	}
+	ft_putstr_fd("mouliswag: warning: here-document delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(delim, STDERR_FILENO);
+	ft_putstr_fd("')\n", STDERR_FILENO);
+	close(savec_stdin);
+	return (1);
 }
 
 static int	read_one_heredoc(t_redir *redir)
