@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 12:17:31 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 14:07:42 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,13 @@ static char	*read_prompt_line(t_shell *shell)
 		if (shell->last_exit != 130)
 			return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
 		else
-			return (readline("\n\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
+		{
+			if (g_signal == SIGINT)
+			{
+				write(1, "\n", 1);
+			}
+			return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
+		}
 	}
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
@@ -94,4 +100,3 @@ int	parsing(t_shell *shell)
 	shell->line = NULL;
 	return (0);
 }
-

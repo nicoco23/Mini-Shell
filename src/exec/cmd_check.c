@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_check.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/08 13:52:20 by ltournie          #+#    #+#             */
+/*   Updated: 2026/09/08 13:52:47 by ltournie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_builtin(char *name)
@@ -39,17 +51,9 @@ int	run_builtin(t_shell *shell, t_cmd *cmd)
 {
 	int	ret;
 
-	// shell->saved_in = dup(STDIN_FILENO);
-	// shell->saved_out = dup(STDOUT_FILENO);
 	if (apply_redirs(cmd))
 		ret = 1;
 	else
 		ret = dispatch_builtin(shell, cmd);
-	// dup2(shell->saved_in, STDIN_FILENO);
-	// dup2(shell->saved_out, STDOUT_FILENO);
-	// close(shell->saved_in);
-	// close(shell->saved_out);
-	// shell->saved_in = -1;
-	// shell->saved_out = -1;
 	return (ret);
 }

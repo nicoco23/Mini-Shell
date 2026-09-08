@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 12:03:12 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 13:54:18 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	read_one_heredoc(t_redir *redir)
 {
 	int	pipe_fd[2];
 
-	dprintf(2,"cc\n");
 	setup_signal_heredoc();
 	if (pipe(pipe_fd) == -1)
 		return (-1);

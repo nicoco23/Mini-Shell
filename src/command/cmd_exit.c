@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/08 13:50:31 by ltournie          #+#    #+#             */
+/*   Updated: 2026/09/08 13:51:07 by ltournie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_space(char c)
@@ -53,4 +65,3 @@ int	cmd_exit(t_shell *shell, char **args)
 	clean_exit(shell, (unsigned char)code);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 12:28:02 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 14:00:53 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,6 @@ int			run_builtin(t_shell *shell, t_cmd *cmd);
 int			cmd_cd(t_shell *shell, t_cmd *cmd);
 int			cmd_pwd(t_shell *shell);
 
-
 /* cmd_echo.c */
 int			cmd_echo(char **args);
 
@@ -241,7 +240,7 @@ int			cmd_echo(char **args);
 int			cmd_env(t_env *env);
 
 /* cmd_exit.c */
-int	cmd_exit(t_shell *shell, char **args);
+int			cmd_exit(t_shell *shell, char **args);
 
 /* env_sort.c */
 t_env		**sort_env_copy(t_env *lst, int *n);
@@ -265,7 +264,6 @@ void		init_shell_env(t_shell *shell);
 int			env_size(t_env *lst);
 char		**env_to_array(t_env *lst);
 int			env_from_envp(char **envp, t_env **out);
-
 
 /* cmd_export.c */
 int			is_valid_id(const char *s);

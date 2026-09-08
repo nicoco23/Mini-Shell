@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 14:26:36 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 12:11:25 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 13:52:32 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	setup_signal_exec(void)
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	// signal(SIGINT, SIG_DFL);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_DFL);
 }
@@ -52,7 +51,6 @@ void	setup_signal_exec2(void)
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
-	// signal(SIGINT, SIG_DFL);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 }

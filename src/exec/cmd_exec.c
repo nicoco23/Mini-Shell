@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 12:36:36 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 14:00:12 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,14 @@ static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 	return (pid);
 }
 
-static int	fork_pipeline(t_shell *shell, pid_t *pids)
+static int	fork_pipeline(t_shell *shell, pid_t *pids, int i)
 {
 	t_cmd	*cmd;
 	int		in_fd;
 	int		pipe_fd[2];
-	int		i;
 
 	cmd = shell->cmds;
 	in_fd = -1;
-	i = 0;
 	while (cmd)
 	{
 		pipe_fd[0] = -1;
@@ -41,13 +39,11 @@ static int	fork_pipeline(t_shell *shell, pid_t *pids)
 		pids[i] = fork_stage(cmd, shell, in_fd, pipe_fd);
 		if (pids[i] == -1)
 		{
-			close_if_open(pipe_fd[0]);
-			close_if_open(pipe_fd[1]);
+			(close_if_open(pipe_fd[0]), close_if_open(pipe_fd[1]));
 			break ;
 		}
 		i++;
-		close_if_open(in_fd);
-		close_if_open(pipe_fd[1]);
+		(close_if_open(in_fd), close_if_open(pipe_fd[1]));
 		in_fd = pipe_fd[0];
 		cmd = cmd->next;
 	}
@@ -88,17 +84,12 @@ void	exec(t_shell *shell)
 	if (!pids)
 		return ;
 	shell->pids = pids;
-	// setup_signal_wait();
-	n = fork_pipeline(shell, pids);
+	n = fork_pipeline(shell, pids, 0);
 	if (n > 0)
-	{
-		setup_signal_exec2();
-		wait_pipeline(shell, pids, n);
-	}
+		(setup_signal_exec2(), wait_pipeline(shell, pids, n));
 	if (n < lst_size)
 		perror("mouliswag: fork");
 	g_signal = 0;
-	free(pids);
+	(free(pids), setup_signal_prompt());
 	shell->pids = NULL;
-	setup_signal_prompt();
 }

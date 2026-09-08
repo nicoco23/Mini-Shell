@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_echo.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/08 13:50:27 by ltournie          #+#    #+#             */
+/*   Updated: 2026/09/08 13:52:00 by ltournie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_flag_n(char *str)
@@ -42,6 +54,7 @@ int	cmd_echo(char **args)
 	if (newline)
 		k += ft_putstr_fd("\n", 1);
 	if (k < 0)
-		return (write(2, "echo: write error: No space left on device\n", 44) - 42);
+		return (write(2, "echo: write error: No space left on device\n"\
+, 44) - 42);
 	return (0);
 }
