@@ -1,0 +1,19 @@
+cd / pwd => "chdir / pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory"
+cd -> $HOME
+cd -> PWD/OLPWD
+env -i -> creer PWd + SHLVL (creer a 1 si existe pas / faire +1 si existe)
+export avec key san value (export AAAA) -> si la key n'existe pas elle est cree / si existe il ne se passe rien
+exit -> ne dois pas quitter sur "numeric argu;ent required"
+exit -> "exit: too many arguments" code d4'erreur 2 et non pas 1
+env -> si PATH n'existe pas on la cree en dur
+
+
+valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --trace-children-skip="*ls" --suppressions=ignore_readline ./minishell
+
+
+Axel:
+
+Toute cmd qui fonctionne pas = leak
+
+Echo vous devez check write car tu gere pas /dev/full
+

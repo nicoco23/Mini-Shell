@@ -6,29 +6,11 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 13:57:34 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/02 17:23:37 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 20:38:57 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_env_value(char **env, char *name)
-{
-	int	i;
-	int	len;
-
-	if (!env || !name)
-		return (NULL);
-	len = ft_strlen(name);
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], name, len) == 0 && env[i][len] == '=')
-			return (env[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
 
 static int	append_str(char **word, char *str)
 {
@@ -80,7 +62,7 @@ int	expand_dollar(char *line, int *i, t_wctx *ctx)
 	name = get_var_name(line, i);
 	if (!name)
 		return (0);
-	value = get_env_value(ctx->shell->env, name);
+	value = env_get(ctx->shell->env, name);
 	free(name);
 	return (append_str(ctx->word, value));
 }

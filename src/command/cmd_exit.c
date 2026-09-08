@@ -33,21 +33,12 @@ static int	str_to_ll(const char *s, long long *out)
 	return (s[i] == '\0' && (*out = (long long)acc * sign, 1));
 }
 
-static void	clean_exit(t_shell *shell, int code)
-{
-	rl_clear_history();
-	if (shell->cmds)
-		free_cmds(shell->cmds);
-	if (shell->env)
-		free_tab(shell->env);
-	exit(code);
-}
-
 int	cmd_exit(t_shell *shell, char **args)
 {
 	long long	code;
 
-	ft_putstr_fd("exit\n", 2);
+	if (isatty(STDIN_FILENO))
+		ft_putstr_fd("exit\n", 2);
 	if (!args[1])
 		clean_exit(shell, (unsigned char)shell->last_exit);
 	if (!str_to_ll(args[1], &code))
@@ -55,10 +46,11 @@ int	cmd_exit(t_shell *shell, char **args)
 		ft_putstr_fd("mouliswag: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		clean_exit(shell, 2);
+		return (2);
 	}
 	if (args[2])
 		return (ft_putstr_fd("mouliswag: exit: too many arguments\n", 2), 1);
 	clean_exit(shell, (unsigned char)code);
 	return (0);
 }
+

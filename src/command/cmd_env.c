@@ -1,18 +1,16 @@
 #include "minishell.h"
 
-int cmd_env(char **env)
+int	cmd_env(t_env *env)
 {
-    int i;
-
-    i = 0;
-    if (env != NULL)
-    {
-        while (env[i] != NULL)
-        {
-            ft_putstr_fd(env[i++], 1);
-            ft_putstr_fd("\n", 1);
-        }
-        return (0);
-    }
-    return (1);
+	while (env)
+	{
+		if (env->visibility && env->value)
+		{
+			if (put_check(env->name, 1) || put_check("=", 1)
+				|| putendl_check(env->value, 1))
+				return (write_error("env"), 1);
+		}
+		env = env->next;
+	}
+	return (0);
 }
