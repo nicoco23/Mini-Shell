@@ -6,7 +6,7 @@ static void	run_external(t_cmd *cmd, t_shell *shell)
 
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
-		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
+		(print_error(cmd->args[0], 0),	close(STDIN_FILENO), close(STDOUT_FILENO),clean_exit(shell, 127));
 	envp = env_to_array(shell->env);
 	if (!envp)
 		clean_exit(shell, 1);

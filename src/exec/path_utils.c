@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:11:43 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/07 20:54:51 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:29:00 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_path(t_env *env, char *command)
 
 	path = env_get(env, "PATH");
 	if (!path)
-		return (split_path(DEFAULT_PATH, command));
+		return (split_path(NULL, command));
 	if (!path[0])
 		return (NULL);
 	return (split_path(path, command));
