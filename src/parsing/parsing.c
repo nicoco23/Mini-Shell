@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/07 15:38:11 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 11:52:23 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static char	*read_prompt_line(void)
 	int		len;
 
 	if (isatty(STDIN_FILENO))
-		return (readline("\033[1;35mMouliSwag\033[0m 🦁​"));
+		return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (NULL);

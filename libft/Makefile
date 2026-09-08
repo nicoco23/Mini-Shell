@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
+#    By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/12 15:43:30 by ltournie          #+#    #+#              #
-#    Updated: 2026/08/25 18:11:27 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/08 11:46:51 by ltournie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Werror -Wall -Wextra
+CFLAGS = -Werror -Wall -Wextra -g3
 SRC =	ft_isalpha.c \
 		ft_isdigit.c \
 		ft_isalnum.c \
