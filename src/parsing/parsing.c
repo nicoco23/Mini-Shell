@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 14:07:42 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 15:38:07 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static char	*read_prompt_line(t_shell *shell)
 			if (g_signal == SIGINT)
 			{
 				write(1, "\n", 1);
+				g_signal = 0;
 			}
 			return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
 		}
@@ -85,15 +86,15 @@ int	parsing(t_shell *shell)
 {
 	setup_signal_prompt();
 	shell->line = read_prompt_line(shell);
-	if (!shell->line)
-	{
-		ft_printf("exit\n");
-		clean_exit(shell, shell->last_exit);
-	}
 	if (g_signal == SIGINT)
 	{
 		shell->last_exit = 130;
 		g_signal = 0;
+	}
+	if (!shell->line)
+	{
+		ft_printf("exit\n");
+		clean_exit(shell, shell->last_exit);
 	}
 	process_line(shell->line, shell);
 	free(shell->line);

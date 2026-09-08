@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 14:00:12 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:12:10 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,24 @@ static void	wait_pipeline(t_shell *shell, pid_t *pids, int n)
 			update_exit_status(shell, status);
 		i++;
 	}
+	if (shell->last_exit == 130)
+		g_signal = SIGINT;
+}
+
+static int	run_builtin_protected(t_shell *shell)
+{
+	int	stdin_fd;
+	int	stdout_fd;
+	int last_exit;
+
+	stdin_fd = dup(STDIN_FILENO);
+	stdout_fd = dup(STDOUT_FILENO);
+	last_exit = run_builtin(shell, shell->cmds);
+	dup2(stdin_fd, STDIN_FILENO);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdin_fd);
+	close(stdout_fd);
+	return (last_exit);
 }
 
 void	exec(t_shell *shell)
@@ -75,7 +93,7 @@ void	exec(t_shell *shell)
 	if (!shell->cmds->next && shell->cmds->args && shell->cmds->args[0]
 		&& is_builtin(shell->cmds->args[0]))
 	{
-		shell->last_exit = run_builtin(shell, shell->cmds);
+		shell->last_exit = run_builtin_protected(shell);
 		return ;
 	}
 	setup_signal_exec();
@@ -89,7 +107,6 @@ void	exec(t_shell *shell)
 		(setup_signal_exec2(), wait_pipeline(shell, pids, n));
 	if (n < lst_size)
 		perror("mouliswag: fork");
-	g_signal = 0;
 	(free(pids), setup_signal_prompt());
 	shell->pids = NULL;
 }

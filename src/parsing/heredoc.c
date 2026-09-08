@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/08 13:54:18 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 15:28:07 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ int	read_heredocs(t_cmd *cmds)
 		}
 		cmds = cmds->next;
 	}
-	g_signal = 0;
 	return (interrupted);
 }

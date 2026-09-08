@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:52:25 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 13:53:56 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:15:38 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static void	run_external(t_cmd *cmd, t_shell *shell)
 
 	set_path(cmd->args[0], shell->env, cmd);
 	if (!cmd->path)
-		(print_error(cmd->args[0], 0), close(STDIN_FILENO), \
-close(STDOUT_FILENO), clean_exit(shell, 127));
+		(print_error(cmd->args[0], 0), clean_exit(shell, 127));
 	envp = env_to_array(shell->env);
 	if (!envp)
 		clean_exit(shell, 1);

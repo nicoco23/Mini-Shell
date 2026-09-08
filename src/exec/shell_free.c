@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:52:26 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 13:52:27 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 16:14:01 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ void	shell_free(t_shell *shell)
 void	clean_exit(t_shell *shell, int code)
 {
 	shell_free(shell);
+	close_if_open(STDIN_FILENO);
+	close_if_open(STDOUT_FILENO);
 	exit(code);
 }
