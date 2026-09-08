@@ -6,7 +6,7 @@
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 19:01:07 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/08 19:28:21 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,15 @@ static int	process_line(char *line, t_shell *shell)
 
 static char	*read_prompt_line(t_shell *shell)
 {
+	(void) shell;
 	if (isatty(STDIN_FILENO))
 	{
-		if (shell->last_exit != 130)
-			return (readline("MouliSwag $ "));
-		else
+		if (g_signal == SIGINT)
 		{
-			if (g_signal == SIGINT)
-			{
-				write(1, "\n", 1);
-				g_signal = 0;
-			}
-			return (readline("MouliSwag $ "));
+			write(1, "\n", 1);
+			g_signal = 0;
 		}
+		return (readline("MouliSwag $ "));
 	}
 	return (NULL);
 }
