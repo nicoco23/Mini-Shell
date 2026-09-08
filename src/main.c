@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 08:50:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/08/26 00:17:25 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/07 21:35:19 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,22 @@
 
 volatile sig_atomic_t	g_signal = 0;
 
-static void	free_env(char **env, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-		free(env[i++]);
-	free(env);
-}
-
-static char	**copy_env(char **envp)
-{
-	char	**env;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	env = malloc(sizeof(char *) * (i + 1));
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		env[i] = ft_strdup(envp[i]);
-		if (!env[i])
-			return (free_env(env, i), NULL);
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 
 	(void)ac;
 	(void)av;
-	shell.env = copy_env(envp);
-	if (!shell.env)
+	if (env_from_envp(envp, &shell.env))
 		return (ft_putstr_fd(
 				"mouliswag: fatal: environment allocation failed\n", 2), 1);
 	shell.cmds = NULL;
+	shell.line = NULL;
+	shell.pids = NULL;
+	shell.saved_in = -1;
+	shell.saved_out = -1;
 	shell.last_exit = 0;
+	init_shell_env(&shell);
 	while (1)
 		parsing(&shell);
 	return (0);

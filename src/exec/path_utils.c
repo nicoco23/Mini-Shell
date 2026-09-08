@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:11:43 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/26 00:00:57 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 12:29:00 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,37 @@
 
 char	*split_path(char *to_split, char *command)
 {
-	char	**split_path;
+	char	**split;
+	char	*joined;
 	int		i;
-	char	*joined_path;
 
+	split = ft_split(to_split, ':');
+	if (!split)
+		return (NULL);
 	i = -1;
-	split_path = ft_split(to_split, ':');
-	while (split_path[++i] != NULL)
+	while (split[++i])
 	{
-		joined_path = ft_strjoin(split_path[i], command);
-		if (access(joined_path, F_OK | X_OK) == 0)
-			return (free_tab(split_path), joined_path);
-		free(joined_path);
+		joined = ft_strjoin(split[i], command);
+		if (joined && access(joined, F_OK | X_OK) == 0)
+			return (free_tab(split), joined);
+		free(joined);
 	}
-	return (free_tab(split_path), NULL);
+	return (free_tab(split), NULL);
 }
 
-char	*get_path(char **envp, char *command)
+char	*get_path(t_env *env, char *command)
 {
-	int		i;
-	char	*str;
+	char	*path;
 
-	i = 0;
-	str = "PATH=";
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(envp[i], str, 5) == 0)
-			return (split_path(&envp[i][5], command));
-		i++;
-	}
-	return (NULL);
+	path = env_get(env, "PATH");
+	if (!path)
+		return (split_path(NULL, command));
+	if (!path[0])
+		return (NULL);
+	return (split_path(path, command));
 }
 
-void	set_path(char *arg, char **envp, t_cmd *cmds)
+void	set_path(char *arg, t_env *env, t_cmd *cmds)
 {
 	char	*str;
 	char	*find_path;
@@ -62,7 +60,7 @@ void	set_path(char *arg, char **envp, t_cmd *cmds)
 	else
 	{
 		str = ft_strjoin("/", cmds->args[0]);
-		find_path = get_path(envp, str);
+		find_path = get_path(env, str);
 		if (find_path != NULL)
 			cmds->path = find_path;
 		free(str);

@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:29:58 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/31 21:38:05 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 14:00:12 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	child_process(t_cmd *cmd, char **envp, int in_fd, int *pipe_fd)
-{
-	setup_signal_exec();
-	if (in_fd != -1)
-		(dup2(in_fd, STDIN_FILENO), close(in_fd));
-	if (pipe_fd[1] != -1)
-		dup2(pipe_fd[1], STDOUT_FILENO);
-	close_if_open(pipe_fd[0]);
-	close_if_open(pipe_fd[1]);
-	if (apply_redirs(cmd))
-		(free_cmds(cmd), exit(1));
-	if (check_cmd(cmd, envp) == 0)
-		(free_cmds(cmd), exit(0));
-	set_path(cmd->args[0], envp, cmd);
-	if (!cmd->path)
-		(print_error(cmd->args[0], 0), free_cmds(cmd), exit(127));
-	execve(cmd->path, cmd->args, envp);
-	print_error(cmd->args[0], 1);
-	(free_cmds(cmd), exit(126));
-}
 
 static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 {
@@ -39,20 +18,18 @@ static pid_t	fork_stage(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 
 	pid = fork();
 	if (pid == 0)
-		child_process(cmd, shell->env, in_fd, pipe_fd);
+		child_process(cmd, shell, in_fd, pipe_fd);
 	return (pid);
 }
 
-static int	fork_pipeline(t_shell *shell, pid_t *pids)
+static int	fork_pipeline(t_shell *shell, pid_t *pids, int i)
 {
 	t_cmd	*cmd;
 	int		in_fd;
 	int		pipe_fd[2];
-	int		i;
 
 	cmd = shell->cmds;
 	in_fd = -1;
-	i = 0;
 	while (cmd)
 	{
 		pipe_fd[0] = -1;
@@ -61,15 +38,16 @@ static int	fork_pipeline(t_shell *shell, pid_t *pids)
 			break ;
 		pids[i] = fork_stage(cmd, shell, in_fd, pipe_fd);
 		if (pids[i] == -1)
+		{
+			(close_if_open(pipe_fd[0]), close_if_open(pipe_fd[1]));
 			break ;
+		}
 		i++;
-		close_if_open(in_fd);
-		close_if_open(pipe_fd[1]);
+		(close_if_open(in_fd), close_if_open(pipe_fd[1]));
 		in_fd = pipe_fd[0];
 		cmd = cmd->next;
 	}
-	close_if_open(in_fd);
-	return (i);
+	return (close_if_open(in_fd), i);
 }
 
 static void	wait_pipeline(t_shell *shell, pid_t *pids, int n)
@@ -97,20 +75,21 @@ void	exec(t_shell *shell)
 	if (!shell->cmds->next && shell->cmds->args && shell->cmds->args[0]
 		&& is_builtin(shell->cmds->args[0]))
 	{
-		shell->last_exit = run_builtin_parent(shell, shell->cmds);
+		shell->last_exit = run_builtin(shell, shell->cmds);
 		return ;
 	}
+	setup_signal_exec();
 	lst_size = ft_listsize_cmd(shell->cmds);
 	pids = malloc(sizeof(pid_t) * lst_size);
 	if (!pids)
 		return ;
-	setup_signal_wait();
-	n = fork_pipeline(shell, pids);
+	shell->pids = pids;
+	n = fork_pipeline(shell, pids, 0);
 	if (n > 0)
-		wait_pipeline(shell, pids, n);
+		(setup_signal_exec2(), wait_pipeline(shell, pids, n));
 	if (n < lst_size)
 		perror("mouliswag: fork");
-	setup_signal_prompt();
 	g_signal = 0;
-	free(pids);
+	(free(pids), setup_signal_prompt());
+	shell->pids = NULL;
 }

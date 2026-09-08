@@ -6,7 +6,7 @@
 #    By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/02 15:02:23 by ltournie          #+#    #+#              #
-#    Updated: 2026/09/02 16:25:30 by ntassin          ###   ########.fr        #
+#    Updated: 2026/09/07 21:09:19 by ntassin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,16 @@ SRC =	src/main.c					\
 		src/command/cmd_env.c		\
 		src/command/cmd_exit.c		\
 		src/command/cmd_export.c	\
-		src/command/env_utils.c		\
 		src/command/env_sort.c		\
+		src/command/cmd_unset.c		\
+		src/command/env_list.c		\
+		src/command/env_edit.c		\
+		src/command/env_init.c		\
+		src/exec/shell_free.c		\
+		src/exec/write_utils.c		\
+		src/command/env_convert.c	\
+		src/exec/exec_child.c		\
+
 		
 OBJ = $(SRC:src/%.c=obj/%.o)
 DEPS = $(SRC:src/%.c=obj/%.d)
@@ -55,7 +63,7 @@ LIBFT_LIB = -L$(LIBFT_DIR) -lft
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(LINK) $(OBJ) -o $(NAME) $(LIBFT_LIB) $(LDLIBS)
+	$(LINK) $(OBJ) $(LIBFT_LIB) $(LDLIBS) -o $(NAME)
 
 .PHONY: libft
 $(LIBFT):
@@ -67,7 +75,7 @@ obj/%.o: src/%.c
 	@if [ ! -d obj/parsing ]; then mkdir obj/parsing; fi
 	@if [ ! -d obj/command ]; then mkdir obj/command; fi
 	@if [ ! -d obj/signal ]; then mkdir obj/signal; fi
-	$(LINK) $(HEADER) -c $< -o $@
+	$(LINK) $(HEADER) -MMD -MP -c $< -o $@
 
 .PHONY: clean
 clean:

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/02 16:00:47 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 14:00:53 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define EXIT_SYNTAX_ERROR 2
 
 # include <limits.h>
+# include <linux/limits.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -107,6 +108,14 @@ typedef struct s_cmd
 
 /* ===== ÉTAT GLOBAL DU SHELL ===== */
 
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	int				visibility;
+	struct s_env	*next;
+}	t_env;
+
 /*
 ** Structure centrale passée à toutes les fonctions du shell.
 ** Elle regroupe tout ce dont le parser et l'executor ont besoin.
@@ -122,9 +131,13 @@ typedef struct s_cmd
 */
 typedef struct s_shell
 {
-	char	**env;
+	t_env	*env;
 	t_cmd	*cmds;
+	char	*line;
+	pid_t	*pids;
 	int		last_exit;
+	int		saved_in;
+	int		saved_out;
 }	t_shell;
 
 typedef struct s_wctx
@@ -159,7 +172,6 @@ int			read_quoted(char *line, int *i, char quote, t_wctx *ctx);
 t_token		*lexer(char *line, t_shell *shell);
 
 /* expand.c */
-char		*get_env_value(char **env, char *name);
 int			expand_dollar(char *line, int *i, t_wctx *ctx);
 
 /* cmd_builder.c */
@@ -182,6 +194,7 @@ void		debug_print_env(char **env);
 /* signal.c */
 void		setup_signal_prompt(void);
 void		setup_signal_exec(void);
+void		setup_signal_exec2(void);
 void		update_exit_status(t_shell *shell, int status);
 
 /* signal_heredoc.c*/
@@ -202,39 +215,68 @@ int			apply_redirs(t_cmd *cmd);
 
 /* path_utils.c*/
 char		*split_path(char *to_split, char *command);
-char		*get_path(char **envp, char *command);
-void		set_path(char *arg, char **envp, t_cmd *cmds);
+char		*get_path(t_env *env, char *command);
+void		set_path(char *arg, t_env *env, t_cmd *cmds);
 
 /* cmd_exec.c */
 void		exec(t_shell *shell);
 void		print_error(char *str, int i);
 
+/* exec_child.c */
+void		child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd);
+
 /*cmd_check*/
-int			check_cmd(t_cmd *cmds, char **env);
 int			is_builtin(char *name);
-int			run_builtin_parent(t_shell *shell, t_cmd *cmd);
+int			run_builtin(t_shell *shell, t_cmd *cmd);
 
 /*cmd_cd*/
-int			cmd_cd(t_cmd *cmds);
-int			cmd_pwd(void);
+int			cmd_cd(t_shell *shell, t_cmd *cmd);
+int			cmd_pwd(t_shell *shell);
 
 /* cmd_echo.c */
 int			cmd_echo(char **args);
 
 /*cmd_env*/
-int			cmd_env(char **env);
+int			cmd_env(t_env *env);
+
+/* cmd_exit.c */
 int			cmd_exit(t_shell *shell, char **args);
 
-/* env_utils.c*/
-int			env_count(char **env);
-int			env_index(char **env, const char *name);
-int			env_set(t_shell *shell, const char *entry);
-
 /* env_sort.c */
-char		**sort_env_copy(char **env, int *n);
+t_env		**sort_env_copy(t_env *lst, int *n);
+
+/* env_list.c */
+t_env		*env_new(char *name, char *value, int visibility);
+t_env		*env_find(t_env *lst, const char *name);
+char		*env_get(t_env *lst, const char *name);
+void		env_add_back(t_env **lst, t_env *new);
+void		env_clear(t_env **lst);
+
+/* env_edit.c */
+int			env_put(t_env **lst, char *name, char *value, int visibility);
+int			env_put_entry(t_env **lst, char *entry, int visibility);
+void		env_del(t_env **lst, const char *name);
+
+/* env_init.c*/
+void		init_shell_env(t_shell *shell);
+
+/* env_convert.c */
+int			env_size(t_env *lst);
+char		**env_to_array(t_env *lst);
+int			env_from_envp(char **envp, t_env **out);
 
 /* cmd_export.c */
 int			is_valid_id(const char *s);
 int			cmd_export(t_shell *shell, char **args);
+int			cmd_unset(char **args, t_shell *shell);
+
+/* shell_free.c */
+void		shell_free(t_shell *shell);
+void		clean_exit(t_shell *shell, int code);
+
+/* write_utils.c */
+int			put_check(char *s, int fd);
+int			putendl_check(char *s, int fd);
+void		write_error(char *cmd);
 
 #endif

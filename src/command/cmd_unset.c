@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_env.c                                          :+:      :+:    :+:   */
+/*   cmd_unset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/08 13:50:30 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 13:50:31 by ltournie         ###   ########.fr       */
+/*   Created: 2026/09/08 13:50:37 by ltournie          #+#    #+#             */
+/*   Updated: 2026/09/08 13:50:38 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmd_env(t_env *env)
+int	cmd_unset(char **args, t_shell *shell)
 {
-	while (env)
+	int	status;
+	int	i;
+
+	status = 0;
+	i = 0;
+	while (args[++i])
 	{
-		if (env->visibility && env->value)
+		if (!is_valid_id(args[i]))
 		{
-			if (put_check(env->name, 1) || put_check("=", 1)
-				|| putendl_check(env->value, 1))
-				return (write_error("env"), 1);
+			ft_putstr_fd("mouliswag: unset: `", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			status = 1;
 		}
-		env = env->next;
+		else
+			env_del(&shell->env, args[i]);
 	}
-	return (0);
+	return (status);
 }

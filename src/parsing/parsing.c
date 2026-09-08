@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/02 17:27:19 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 14:07:42 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,24 @@ static int	process_line(char *line, t_shell *shell)
 	return (build_and_run(shell, tokens));
 }
 
-static char	*read_prompt_line(void)
+static char	*read_prompt_line(t_shell *shell)
 {
 	char	*line;
 	int		len;
 
 	if (isatty(STDIN_FILENO))
-		return (readline("\033[1;35mMouliSwag\033[0m 🦁​"));
+	{
+		if (shell->last_exit != 130)
+			return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
+		else
+		{
+			if (g_signal == SIGINT)
+			{
+				write(1, "\n", 1);
+			}
+			return (readline("\1\033[1;35m\2MouliSwag\1\033[0m 🦁​\2"));
+		}
+	}
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (NULL);
@@ -72,21 +83,20 @@ static char	*read_prompt_line(void)
 
 int	parsing(t_shell *shell)
 {
-	char	*line;
-
 	setup_signal_prompt();
-	line = read_prompt_line();
-	if (!line)
+	shell->line = read_prompt_line(shell);
+	if (!shell->line)
 	{
 		ft_printf("exit\n");
-		exit(shell->last_exit);
+		clean_exit(shell, shell->last_exit);
 	}
 	if (g_signal == SIGINT)
 	{
 		shell->last_exit = 130;
 		g_signal = 0;
 	}
-	process_line(line, shell);
-	free(line);
+	process_line(shell->line, shell);
+	free(shell->line);
+	shell->line = NULL;
 	return (0);
 }

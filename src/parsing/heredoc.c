@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 15:36:55 by ntassin           #+#    #+#             */
-/*   Updated: 2026/08/25 16:33:10 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/08 13:54:18 by ltournie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	read_one_heredoc(t_redir *redir)
 {
 	int	pipe_fd[2];
 
+	setup_signal_heredoc();
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	if (heredoc_loop(pipe_fd[1], redir->target) == -1)
@@ -56,7 +57,6 @@ int	read_heredocs(t_cmd *cmds)
 	int		interrupted;
 
 	interrupted = 0;
-	setup_signal_heredoc();
 	while (cmds && !interrupted)
 	{
 		redir = cmds->redirs;
@@ -69,7 +69,6 @@ int	read_heredocs(t_cmd *cmds)
 		}
 		cmds = cmds->next;
 	}
-	setup_signal_prompt();
 	g_signal = 0;
 	return (interrupted);
 }

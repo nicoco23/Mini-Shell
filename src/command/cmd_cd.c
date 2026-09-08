@@ -1,95 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_cd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/08 13:49:45 by ltournie          #+#    #+#             */
+/*   Updated: 2026/09/08 13:50:04 by ltournie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	parsing_cd(char **args)
+static void	cwd_error(char *who)
 {
-	if (ft_strlen(args[1]) == 0 && args[1])
+	ft_putstr_fd("mouliswag: ", 2);
+	ft_putstr_fd(who, 2);
+	ft_putstr_fd(": error retrieving current directory: getcwd: "
+		"cannot access parent directories: "
+		"No such file or directory\n", 2);
+}
+
+static void	update_pwd(t_shell *shell, char *oldpwd)
+{
+	char	cwd[PATH_MAX];
+
+	if (oldpwd)
+		env_put(&shell->env, "OLDPWD", oldpwd, 1);
+	if (getcwd(cwd, PATH_MAX))
+		env_put(&shell->env, "PWD", cwd, 1);
+	else
+		cwd_error("cd");
+}
+
+static char	*cd_target(t_shell *shell, char **args)
+{
+	char	*home;
+
+	if (args[1])
+		return (args[1]);
+	home = env_get(shell->env, "HOME");
+	if (!home || !home[0])
+		return (ft_putstr_fd("mouliswag: cd: HOME not set\n", 2), NULL);
+	return (home);
+}
+
+int	cmd_cd(t_shell *shell, t_cmd *cmd)
+{
+	char	buf[PATH_MAX];
+	char	*path;
+	char	*old;
+
+	if (cmd->args[1] && cmd->args[2])
+		return (ft_putstr_fd("mouliswag: cd: too many arguments\n", 2), 1);
+	if (cmd->args[1] && !cmd->args[1][0])
+		return (0);
+	path = cd_target(shell, cmd->args);
+	if (!path)
 		return (1);
-	if (args[2] != NULL)
-	{
-		ft_putstr_fd("Mouliswag: cd: too many arguments\n", 2);
-		return (1);
-	}
-	return (0);
-}
-
-void	path_last(char **path)
-{
-	int	i;
-	int	nb;
-
-	i = 0;
-	nb = 0;
-	while (path[0][i] != '\0')
-	{
-		if (path[0][i] == '/')
-			nb = i;
-		i++;
-	}
-	while (i != nb)
-	{
-		path[0][nb] = '\0';
-		nb++;
-	}
-}
-
-void	path_next(char **path, char *arg)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (path[0][i] != '\0')
-		i++;
-	path[0][i] = '/';
-	i++;
-	while (arg[j] != '\0')
-	{
-		path[0][i] = arg[j];
-		j++;
-		i++;
-	}
-	path[0][i] = '\0';
-}
-
-int	lecture_path(char *fullpath, char *path)
-{
-	char	**path_split;
-	int		i;
-
-	i = 0;
-	if (path[0] != '/' )
-	{
-		path_split = ft_split(path, '/');
-		while (path_split[i] != NULL)
-		{
-			if (ft_strncmp(path_split[i], "..\0", 3) == 0)
-				path_last(&fullpath);
-			else
-				path_next(&fullpath, path_split[i]);
-			i++;
-		}
-		free_tab(path_split);
-	}
+	old = getcwd(buf, PATH_MAX);
+	if (!old)
+		old = env_get(shell->env, "PWD");
 	if (chdir(path) != 0)
-		return (1);
-	return (0);
-}
-
-int	cmd_cd(t_cmd *cmds)
-{
-	char	filepath[BUFFER_SIZE];
-
-	if (parsing_cd(cmds->args) != 0)
-		return (1);
-	getcwd(filepath, BUFFER_SIZE);
-	if (getcwd(filepath, BUFFER_SIZE) == NULL)
-		return (1);
-	if (lecture_path(filepath, cmds->args[1]) == 1)
 	{
-		ft_putstr_fd("Mouliswag: no such file or directory: ", 2);
-		ft_putstr_fd(cmds->args[1], 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("mouliswag: cd: ", 2);
+		return (perror(path), 1);
 	}
-	return (0);
+	return (update_pwd(shell, old), 0);
 }
