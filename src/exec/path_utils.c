@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/25 19:11:43 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/09 22:19:23 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/10 00:41:53 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,16 @@ void	set_path(char *arg, t_env *env, t_cmd *cmds)
 	{
 		if (access(arg, F_OK) == 0)
 			cmds->path = ft_strdup(arg);
+		return ;
 	}
-	else
+	if (!env_get(env, "PATH"))
 	{
-		str = ft_strjoin("/", cmds->args[0]);
-		find_path = get_path(env, str);
-		if (find_path != NULL)
-			cmds->path = find_path;
-		free(str);
+		cmds->path = ft_strdup(cmds->args[0]);
+		return ;
 	}
+	str = ft_strjoin("/", cmds->args[0]);
+	find_path = get_path(env, str);
+	if (find_path != NULL)
+		cmds->path = find_path;
+	free(str);
 }
