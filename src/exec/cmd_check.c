@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:52:20 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 13:52:47 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 22:06:13 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ static int	dispatch_builtin(t_shell *shell, t_cmd *cmd)
 
 int	run_builtin(t_shell *shell, t_cmd *cmd)
 {
-	int	ret;
-
 	if (apply_redirs(cmd))
-		ret = 1;
-	else
-		ret = dispatch_builtin(shell, cmd);
-	return (ret);
+		return (1);
+	if (!cmd->args || !cmd->args[0])
+		return (0);
+	return (dispatch_builtin(shell, cmd));
 }

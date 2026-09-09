@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 16:51:09 by ltournie          #+#    #+#             */
-/*   Updated: 2026/05/07 17:14:05 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 21:52:40 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	copy_str(char *dest, char *src)
 	int	i;
 
 	i = 0;
+	if (src == NULL)
+		return ;
 	if (src[0] == '\0')
 		dest[i] = '\0';
 	else

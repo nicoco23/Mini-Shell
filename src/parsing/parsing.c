@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:54:34 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 21:38:39 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 23:54:27 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,16 @@ static int	build_and_run(t_shell *shell, t_token *token)
 static int	process_line(char *line, t_shell *shell)
 {
 	t_token	*tokens;
+	int		err;
 
 	if (!line || is_blank(line))
 		return (0);
 	add_history(line);
-	tokens = lexer(line, shell);
-	if (!tokens)
+	tokens = lexer(line, shell, &err);
+	if (err)
 		return (shell->last_exit = EXIT_SYNTAX_ERROR, 0);
+	if (!tokens)
+		return (shell->last_exit = 0, 0);
 	if (!check_syntax(tokens))
 	{
 		shell->last_exit = EXIT_SYNTAX_ERROR;
@@ -65,8 +68,11 @@ char	*read_input_line(const char *prompt)
 	char	*line;
 	size_t	len;
 
-	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO))
+	{
+		rl_outstream = stderr;
 		return (readline(prompt));
+	}
 	line = get_next_line(STDIN_FILENO);
 	if (!line)
 		return (NULL);
@@ -81,8 +87,8 @@ int	parsing(t_shell *shell)
 	setup_signal_prompt();
 	if (g_signal == SIGINT)
 	{
-		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-			write(1, "\n", 1);
+		if (isatty(STDIN_FILENO))
+			write(2, "\n", 1);
 		g_signal = 0;
 	}
 	shell->line = read_input_line("MouliSwag $ ");
@@ -94,7 +100,7 @@ int	parsing(t_shell *shell)
 	if (!shell->line)
 	{
 		if (isatty(STDIN_FILENO))
-			ft_printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 		clean_exit(shell, shell->last_exit);
 	}
 	process_line(shell->line, shell);

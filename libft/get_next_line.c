@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltournie <ltournie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 16:49:28 by ltournie          #+#    #+#             */
-/*   Updated: 2026/05/07 17:13:46 by ltournie         ###   ########.fr       */
+/*   Updated: 2026/09/09 21:49:52 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*delete_line(char *str)
 	else
 		len = (line_len(str));
 	str_left = malloc(sizeof(char) * (ft_strlen(str) - len + 1));
+	if (!str_left)
+		return (NULL);
 	while (str[len + i] != '\0')
 	{
 		str_left[i] = str[len + i];

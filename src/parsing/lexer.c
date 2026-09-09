@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/22 10:37:11 by ntassin           #+#    #+#             */
-/*   Updated: 2026/09/02 17:36:34 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/09 22:12:29 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	handle_word(char *line, int *i, t_token **list, t_wctx *ctx)
 	return (token_add_back(list, token), 1);
 }
 
-t_token	*lexer(char *line, t_shell *shell)
+t_token	*lexer(char *line, t_shell *shell, int *err)
 {
 	t_token	*list;
 	t_wctx	ctx;
@@ -87,6 +87,7 @@ t_token	*lexer(char *line, t_shell *shell)
 
 	list = NULL;
 	i = 0;
+	*err = 0;
 	quoted = 0;
 	ctx.shell = shell;
 	ctx.quoted = &quoted;
@@ -98,10 +99,10 @@ t_token	*lexer(char *line, t_shell *shell)
 		else if (line[i] == '|' || line[i] == '<' || line[i] == '>')
 		{
 			if (!handle_operator(line, &i, &list, &ctx))
-				return (free_tokens(list), NULL);
+				return (*err = 1, free_tokens(list), NULL);
 		}
 		else if (!handle_word(line, &i, &list, &ctx))
-			return (free_tokens(list), NULL);
+			return (*err = 1, free_tokens(list), NULL);
 	}
 	return (list);
 }

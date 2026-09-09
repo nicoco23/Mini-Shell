@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/08 13:52:25 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/08 19:45:15 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/09 22:04:28 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ void	child_process(t_cmd *cmd, t_shell *shell, int in_fd, int *pipe_fd)
 	}
 	if (apply_redirs(cmd))
 		clean_exit(shell, 1);
+	if (!cmd->args || !cmd->args[0])
+		clean_exit(shell, 0);
 	run_external(cmd, shell);
 }

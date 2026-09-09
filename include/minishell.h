@@ -6,7 +6,7 @@
 /*   By: ntassin <ntassin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 14:16:59 by ltournie          #+#    #+#             */
-/*   Updated: 2026/09/09 14:34:24 by ntassin          ###   ########.fr       */
+/*   Updated: 2026/09/09 22:12:43 by ntassin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int			read_quoted(char *line, int *i, char quote, t_wctx *ctx);
 char		*read_input_line(const char *prompt);
 
 /* lexer.c */
-t_token		*lexer(char *line, t_shell *shell);
+t_token		*lexer(char *line, t_shell *shell, int *err);
 
 /* expand.c */
 int			expand_dollar(char *line, int *i, t_wctx *ctx);
